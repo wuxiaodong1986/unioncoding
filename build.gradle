@@ -20,6 +20,10 @@ jar {
 	baseName = 'unioncoding'
 }
 
+springBoot {
+	executable = true
+}
+
 //version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
@@ -38,6 +42,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.springframework.boot:spring-boot-starter-aop')
 	compile('org.springframework.boot:spring-boot-starter-redis:1.4.5.RELEASE')
+//	compile('org.springframework.boot:spring-boot-starter-security')
 
 	compile 'mysql:mysql-connector-java:6.0.5'
 	compile 'com.zaxxer:HikariCP:2.5.1'
