@@ -1,6 +1,7 @@
 package com.unioncoding.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,6 +10,18 @@ import java.util.List;
 @Entity
 public class Function
 {
+    public Function()
+    {
+
+    }
+
+    public Function(String id, String pId)
+    {
+        this.id = id;
+
+        this.pId = pId;
+    }
+
     @Id
     private String id;
 
@@ -27,7 +40,7 @@ public class Function
     private List<Authority> authorities;
 
     @Transient
-    private List<Function> sFuns;
+    private List<Function> sFuns = new ArrayList<>();
 
     public String getId()
     {
@@ -92,11 +105,6 @@ public class Function
     public List<Function> getsFuns()
     {
         return sFuns;
-    }
-
-    public void setsFuns(List<Function> sFuns)
-    {
-        this.sFuns = sFuns;
     }
 
     public List<Authority> getAuthorities()

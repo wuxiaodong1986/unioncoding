@@ -45,7 +45,7 @@ public class UserController
         model.addAttribute("page", userPage);
         model.addAttribute("title", "用户管理");
 
-        return new ModelAndView("users/list", "userModel", model);
+        return new ModelAndView("users/list", "model", model);
     }
 
     /**
@@ -64,6 +64,6 @@ public class UserController
             model.addAttribute("title", "修改用户");
             model.addAttribute("user", user);
         }
-        return new ModelAndView("users/form", "userModel", model);
+        return new ModelAndView("users/form", "model", model);
     }
 }

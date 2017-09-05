@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 
 import javax.sql.DataSource;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             {
                 authoritySet.add(authority.getAuthority());
             }
-
 
             if (!authoritySet.isEmpty() && !StringUtils.isEmpty(function.getMatch()))
             {

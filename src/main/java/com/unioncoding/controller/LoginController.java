@@ -1,11 +1,17 @@
 package com.unioncoding.controller;
 
-import org.springframework.http.HttpRequest;
+import com.unioncoding.model.Authority;
+import com.unioncoding.model.Function;
+import com.unioncoding.model.User;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Enumeration;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 吴晓冬 on 2017/9/1.
@@ -20,21 +26,48 @@ public class LoginController
     }
 
     @GetMapping("/login")
-    public String login(HttpServletRequest request)
+    public String login()
     {
-//        Enumeration<String> enumeration = request.getAttributeNames();
-//        while (enumeration.hasMoreElements())
-//        {
-//            String key = enumeration.nextElement();
-//            String value = request.getAttribute(key).toString();
-//            System.out.println(key + " : " + value);
-//        }
         return "login";
     }
 
     @GetMapping(value = "/main")
-    public String welcome()
+    public ModelAndView main(HttpSession session, Model model)
     {
-        return "frame/main";
+        //获取已登录用户信息
+        SecurityContextImpl securityContextImpl = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        User user = (User) securityContextImpl.getAuthentication().getPrincipal();
+
+        //获取该用户可访问所有菜单并去重
+        List<Function> functionList = new ArrayList<>();
+        for (Authority authority : user.getAuthorities())
+        {
+            for (Function function : authority.getFunctions())
+            {
+                if (!functionList.contains(function))
+                {
+                    functionList.add(function);
+                }
+            }
+        }
+
+        //生成菜单树
+        Function root = new Function("0", "");
+        functionList.add(0, root);
+
+        for (int i = 0; i < functionList.size(); i++)
+        {
+            for (int j = 0; j < functionList.size(); j++)
+            {
+                if (functionList.get(i).getId().equals(functionList.get(j).getpId()))
+                {
+                    functionList.get(i).getsFuns().add(functionList.get(j));
+                }
+            }
+        }
+
+        model.addAttribute("functions", root.getsFuns());
+
+        return new ModelAndView("frame/main", "model", model);
     }
 }
