@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
         //页面的其他设置
         registry.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/main").permitAll()//设置登录页面
-                .and().logout().permitAll()//设置注销页面
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/").permitAll()//设置注销页面
                 .and().csrf().ignoringAntMatchers("/interface/*");//设置免除csrf防御的接口
     }
 

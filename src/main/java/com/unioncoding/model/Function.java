@@ -40,7 +40,7 @@ public class Function
     private List<Authority> authorities;
 
     @Transient
-    private List<Function> sFuns = new ArrayList<>();
+    private List<Function> functions = new ArrayList<>();
 
     public String getId()
     {
@@ -102,9 +102,14 @@ public class Function
         this.match = match;
     }
 
-    public List<Function> getsFuns()
+    public List<Function> getFunctions()
     {
-        return sFuns;
+        return functions;
+    }
+
+    public void setFunctions(List<Function> functions)
+    {
+        this.functions = functions;
     }
 
     public List<Authority> getAuthorities()

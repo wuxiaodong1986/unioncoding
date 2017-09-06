@@ -54,19 +54,21 @@ public class LoginController
         //生成菜单树
         Function root = new Function("0", "");
         functionList.add(0, root);
-
         for (int i = 0; i < functionList.size(); i++)
         {
             for (int j = 0; j < functionList.size(); j++)
             {
                 if (functionList.get(i).getId().equals(functionList.get(j).getpId()))
                 {
-                    functionList.get(i).getsFuns().add(functionList.get(j));
+                    if (!functionList.get(i).getFunctions().contains(functionList.get(j)))
+                    {
+                        functionList.get(i).getFunctions().add(functionList.get(j));
+                    }
                 }
             }
         }
 
-        model.addAttribute("functions", root.getsFuns());
+        model.addAttribute("functions", root.getFunctions());
 
         return new ModelAndView("frame/main", "model", model);
     }
