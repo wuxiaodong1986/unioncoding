@@ -10,10 +10,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -34,15 +31,16 @@ public class UserController
     /**
      * 分页查询用户信息
      */
-    @GetMapping
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView list(Model model, User user, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
     {
-        ExampleMatcher matcher = ExampleMatcher.matching();
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
         PageRequest pageRequest = new PageRequest(pageNumber, pageSize);
 
         Page<User> userPage = userRepository.findAll(Example.of(user, matcher), pageRequest);
-
         model.addAttribute("page", userPage);
+        model.addAttribute("user", user);
         model.addAttribute("title", "用户管理");
 
         return new ModelAndView("users/list", "model", model);

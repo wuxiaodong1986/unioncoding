@@ -60,7 +60,7 @@
         <li class="admin-parent" th:each="menu : ${model.functions}">
          <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file" th:class="${menu.icon}" th:text="${menu.name}"></span></a>
          <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav" th:each="menuitem : ${menu.functions}">
-           <li><a href="admin-404.html" th:href="${menuitem.url}" th:class="${menuitem.icon}" th:text="${menuitem.name}"><span class="am-icon-bug"></span> 404</a></li>
+           <li class="menuitem"><a href="javascript:void(0)" th:class="${menuitem.icon}" th:text="${menuitem.name}" data-th-attr="url=${menuitem.url}"><span class="am-icon-bug"></span> 404</a></li>
          </ul>
         </li>
       </ul>
@@ -112,9 +112,52 @@
 <script src="ui/amazeui/assets/js/app.js"></script>
 
 <script>
+  $(function () {
+      $(".menuitem a").click(function() {
+
+          var url = $(this).attr("url");
+
+          // 加载其他模块的页面到核心区
+          getMainContainer(url);
+      });
+
+      //自动加载菜单栏第一个模块
+      $(".menuitem a:first").trigger("click");
+  });
+
   function logout()
   {
       $("#logoutForm").submit();
+  }
+
+  function getMainContainer(url)
+  {
+      $.ajax({
+          url: url,
+          success: function(data){
+              $("#mainContainer").html(data);
+          },
+          error : function() {
+              alert("error");
+          }
+      });
+  }
+
+  function postMainContainer(formId)
+  {
+      var url = $("#"+formId).attr("action");
+      $.ajax({
+          url: url,
+          type: 'POST',
+          data:$("#"+formId).serialize(),
+          success: function(data){
+              $("#mainContainer").html(data);
+          },
+          error : function() {
+              alert("error");
+          }
+      });
+      return false;
   }
 </script>
 
