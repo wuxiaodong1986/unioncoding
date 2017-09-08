@@ -69,50 +69,11 @@
           </tr>
         </tbody>
       </table>
-      <div class="am-cf">
-        共 [[${page.totalElements}]] 条记录
-        <div class="am-fr">
-          <ul class="am-pagination">
-            <li data-th-classappend="${(page.number) eq 0} ? 'am-disabled' : ''">
-              <a href="#">«</a>
-            </li>
 
-            <li data-th-each="i : ${#numbers.sequence(1, page.totalPages)}" data-th-classappend="${(page.number + 1) eq i} ? 'am-active' : ''">
-              <a href="#" data-th-text="${i}">1</a>
-            </li>
+      <!--  -->
+      <div th:replace="~{frame/page :: page}">...</div>
 
-            <li data-th-classappend="${(page.number+1) eq (page.totalPages)} ? 'am-disabled' : ''">
-              <a href="#">»</a>
-            </li>
-          </ul>
-        </div>
-      </div>
       <hr />
     </form>
   </div>
 </div>
-
-<script>
-$(function () {
-    var pageNumber = $("input[name='pageNumber']").val();
-
-    $(".am-pagination li a").click(function() {
-        var targetPageNumber = $(this).text();
-
-        if ("«"== targetPageNumber)
-        {
-            targetPageNumber = pageNumber-1;
-        }
-        else if ("»"== targetPageNumber)
-        {
-            targetPageNumber = parseInt(pageNumber)+1;
-        }
-        else
-        {
-            targetPageNumber = parseInt(targetPageNumber) -1;
-        }
-        $("input[name='pageNumber']").val(targetPageNumber);
-        $("#queryForm").submit();
-    });
-});
-</script>
