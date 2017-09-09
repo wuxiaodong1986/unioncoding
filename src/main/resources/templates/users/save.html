@@ -1,0 +1,58 @@
+
+
+<div class="am-cf am-padding am-padding-bottom-0">
+  <div class="am-fl am-cf">
+    <strong class="am-text-primary am-text-lg" th:text="${title}">新增/修改 用户</strong>
+  </div>
+</div>
+
+<hr>
+
+<div class="am-g">
+  <div class="am-u-sm-12 am-u-md-8">
+    <form id="saveForm" class="am-form am-form-horizontal" th:action="@{/users/save}" data-th-attr="returnUrl='/users'" th:object="${user}" onsubmit="return ajaxMainContainer('saveForm');">
+      <input type="hidden" name="id" th:value="*{id}">
+      <div class="am-form-group">
+        <label for="username" class="am-u-sm-3 am-form-label">用户名</label>
+        <div class="am-u-sm-9">
+          <input type="text" id="username" name="username" placeholder="用户名" th:value="*{username}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label for="name" class="am-u-sm-3 am-form-label">姓名</label>
+        <div class="am-u-sm-9">
+          <input type="text" id="name" name="name" placeholder="姓名" th:value="*{name}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label for="enabled" class="am-u-sm-3 am-form-label">状态</label>
+        <div class="am-u-sm-9">
+          <select data-am-selected id="enabled" name="enabled">
+            <option value="true" th:selected="*{enabled}">可用</option>
+            <option value="false" th:selected="!*{enabled}">不可用</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label for="enabled" class="am-u-sm-3 am-form-label">角色</label>
+        <div class="am-u-sm-9">
+          <label class="am-checkbox-inline" th:each="authority : ${authorities}">
+            <input type="checkbox" name="authorities" th:value="${authority.authority}" th:text="${authority.name}" data-th-checked="${#lists.contains(user.authorities,authority)}">
+          </label>
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <div class="am-u-sm-3 am-u-sm-push-3">
+          <button type="submit" class="am-btn am-btn-primary">保存修改</button>
+        </div>
+        <div class="am-u-sm-6 am-u-sm-push-3">
+          <button type="button" class="am-btn am-btn-primary" th:onclick="'javascript:getMainContainer(\'/users\');'">返回</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

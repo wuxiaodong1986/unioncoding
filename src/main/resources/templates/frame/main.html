@@ -57,7 +57,7 @@
   <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
     <div class="am-offcanvas-bar admin-offcanvas-bar">
        <ul class="am-list admin-sidebar-list">
-        <li class="admin-parent" th:each="menu : ${model.functions}">
+        <li class="admin-parent" th:each="menu : ${functions}">
          <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file" th:class="${menu.icon}" th:text="${menu.name}"></span></a>
          <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav" th:each="menuitem : ${menu.functions}">
            <li class="menuitem"><a href="javascript:void(0)" th:class="${menuitem.icon}" th:text="${menuitem.name}" data-th-attr="url=${menuitem.url}"><span class="am-icon-bug"></span> 404</a></li>
@@ -152,6 +152,63 @@
           data:$("#"+formId).serialize(),
           success: function(data){
               $("#mainContainer").html(data);
+          },
+          error : function() {
+              alert("error");
+          }
+      });
+      return false;
+  }
+
+  function deleteMainContainer(url,returnUrl)
+  {
+      var csrfToken = $("meta[name='_csrf']").attr("content");
+      var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+      $.ajax({
+          url: url,
+          type: 'DELETE',
+          beforeSend: function(request) {
+              request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
+          },
+          dataType: "json",
+          success: function(data){
+              if (data.retCode == '0000')
+              {
+                  alert(data.retMsg);
+                  getMainContainer(returnUrl)
+              }
+              else
+              {
+                  alert(data.retMsg);
+              }
+          },
+          error : function() {
+              alert("error");
+          }
+      });
+
+      return false;
+  }
+
+  function ajaxMainContainer(formId)
+  {
+      var url = $("#"+formId).attr("action");
+      var returnUrl = $("#"+formId).attr("returnUrl");
+      $.ajax({
+          url: url,
+          type: 'POST',
+          data:$("#"+formId).serialize(),
+          dataType: "json",
+          success: function(data){
+              if (data.retCode == '0000')
+              {
+                  getMainContainer(returnUrl)
+              }
+              else
+              {
+                  alert(data.retMsg);
+              }
           },
           error : function() {
               alert("error");
