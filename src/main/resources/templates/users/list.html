@@ -72,7 +72,7 @@
               <button class="am-btn am-btn-default am-btn-xs am-text-secondary" th:onclick="'javascript:getMainContainer(\'/users/save/'+(${user.id})+'\');'">
                 <span class="am-icon-pencil-square-o"></span> 修改
               </button>
-              <button class="am-btn am-btn-default am-btn-xs am-text-danger" th:onclick="'javascript:deleteMainContainer(\'/users/'+(${user.id})+'\', \'/users\');'">
+              <button class="am-btn am-btn-default am-btn-xs am-text-danger" th:onclick="'javascript:deleteMainContainer(\'/users/'+(${user.id})+'\', \''+(${session.pageHistory[0]})+'\');'">
                 <span class="am-icon-trash-o"></span> 删除
               </button>
             </div>

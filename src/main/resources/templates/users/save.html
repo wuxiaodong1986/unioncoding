@@ -10,7 +10,7 @@
 
 <div class="am-g">
   <div class="am-u-sm-12 am-u-md-8">
-    <form id="saveForm" class="am-form am-form-horizontal" th:action="@{/users/save}" data-th-attr="returnUrl='/users'" th:object="${user}" onsubmit="return ajaxMainContainer('saveForm');">
+    <form id="saveForm" class="am-form am-form-horizontal" th:action="@{/users/save}" data-th-attr="returnUrl=${session.pageHistory[1]}" th:object="${user}" onsubmit="return ajaxMainContainer('saveForm');">
       <input type="hidden" name="id" th:value="*{id}">
       <div class="am-form-group">
         <label for="username" class="am-u-sm-3 am-form-label">用户名</label>
@@ -50,7 +50,7 @@
           <button type="submit" class="am-btn am-btn-primary">保存修改</button>
         </div>
         <div class="am-u-sm-6 am-u-sm-push-3">
-          <button type="button" class="am-btn am-btn-primary" th:onclick="'javascript:getMainContainer(\'/users\');'">返回</button>
+          <button type="button" class="am-btn am-btn-primary" th:onclick="'javascript:getMainContainer(\''+(${session.pageHistory[1]})+'\');'">返回</button>
         </div>
       </div>
     </form>
