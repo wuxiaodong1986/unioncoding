@@ -67,8 +67,7 @@ public class UserController
 
         User user = new User();
         user.setAuthorities(new ArrayList<>());
-
-        model.addAttribute("user", new User());
+        model.addAttribute("user", user);
 
         return "users/save";
     }

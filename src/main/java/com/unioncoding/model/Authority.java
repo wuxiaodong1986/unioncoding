@@ -15,7 +15,7 @@ public class Authority implements GrantedAuthority
     @Id
     private String authority;
 
-    @NotEmpty(message = "不能名称为null")
+    @NotEmpty(message = "Authority名称不能为null")
     private String name;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

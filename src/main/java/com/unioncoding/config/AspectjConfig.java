@@ -65,7 +65,6 @@ public class AspectjConfig
                         msgList.add(constraintViolation.getMessage());
                     }
                     String messages = StringUtils.arrayToDelimitedString(msgList.toArray(new String[msgList.size()]), ";");
-                    System.out.println(messages);
                     response = new Response(ErrorTypeEnum.SYSTEM.key(), messages);
                 }
                 else
