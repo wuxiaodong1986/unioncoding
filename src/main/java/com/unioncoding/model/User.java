@@ -1,19 +1,17 @@
 package com.unioncoding.model;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.StringUtils;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by 吴晓冬 on 2017/9/2.
  */
 @Entity
-public class User
+public class User implements Serializable
 {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -25,6 +23,7 @@ public class User
 
     private Boolean enabled;
 
+    @NotEmpty(message = "姓名不能为空")
     private String name;
 
     private String phone;
@@ -33,7 +32,7 @@ public class User
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "user_authority", joinColumns = {@JoinColumn(name ="id")}, inverseJoinColumns = {@JoinColumn(name ="authority")})
-    private List<Authority> authorities = new ArrayList<>();
+    private List<Authority> authorities;
 
     public List<Authority> getAuthorities()
     {
@@ -57,10 +56,10 @@ public class User
 
     public void setUsername(String username)
     {
-        if (StringUtils.isEmpty(username))
-        {
-            username = null;
-        }
+//        if (StringUtils.isEmpty(username))
+//        {
+//            username = null;
+//        }
         this.username = username;
     }
 
@@ -96,10 +95,10 @@ public class User
 
     public void setName(String name)
     {
-        if (StringUtils.isEmpty(name))
-        {
-            name = null;
-        }
+//        if (StringUtils.isEmpty(name))
+//        {
+//            name = null;
+//        }
         this.name = name;
     }
 

@@ -10,7 +10,7 @@
 
 <div class="am-g">
   <div class="am-u-sm-12 am-u-md-8">
-    <form id="saveForm" class="am-form am-form-horizontal" th:action="@{/users/save}" data-th-attr="returnUrl=${session.pageHistory[1]}" th:object="${user}" onsubmit="return ajaxMainContainer('saveForm');">
+    <form id="saveForm" class="am-form am-form-horizontal" th:action="@{/users/save}" th:attr="returnUrl=${session.pageHistory[1]}" th:object="${user}" onsubmit="return ajaxMainContainer('saveForm');">
       <input type="hidden" name="id" th:value="*{id}">
       <div class="am-form-group">
         <label for="username" class="am-u-sm-3 am-form-label">用户名</label>
@@ -23,6 +23,20 @@
         <label for="name" class="am-u-sm-3 am-form-label">姓名</label>
         <div class="am-u-sm-9">
           <input type="text" id="name" name="name" placeholder="姓名" th:value="*{name}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label for="phone" class="am-u-sm-3 am-form-label">手机</label>
+        <div class="am-u-sm-9">
+          <input type="text" id="phone" name="phone" placeholder="手机" th:value="*{phone}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label for="email" class="am-u-sm-3 am-form-label">邮箱</label>
+        <div class="am-u-sm-9">
+          <input type="text" id="email" name="email" placeholder="邮箱" th:value="*{email}">
         </div>
       </div>
 
@@ -40,7 +54,7 @@
         <label for="enabled" class="am-u-sm-3 am-form-label">角色</label>
         <div class="am-u-sm-9">
           <label class="am-checkbox-inline" th:each="authority : ${authorities}">
-            <input type="checkbox" name="authorities" th:value="${authority.authority}" th:text="${authority.name}" data-th-checked="${#lists.contains(user.authorities,authority)}">
+            <input type="checkbox" name="authorities" th:value="${authority.authority}" th:text="${authority.name}" th:checked="${#lists.contains(user.authorities,authority)}">
           </label>
         </div>
       </div>

@@ -1,5 +1,6 @@
 package com.unioncoding.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class Authority implements GrantedAuthority
     @Id
     private String authority;
 
+    @NotEmpty(message = "不能名称为null")
     private String name;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

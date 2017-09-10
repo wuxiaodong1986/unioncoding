@@ -58,9 +58,13 @@
     <div class="am-offcanvas-bar admin-offcanvas-bar">
        <ul class="am-list admin-sidebar-list">
         <li class="admin-parent" th:each="menu : ${functions}">
-         <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file" th:class="${menu.icon}" th:text="${menu.name}"></span></a>
-         <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav" th:each="menuitem : ${menu.functions}">
-           <li class="menuitem"><a href="javascript:void(0)" th:class="${menuitem.icon}" th:text="${menuitem.name}" data-th-attr="url=${menuitem.url}"><span class="am-icon-bug"></span> 404</a></li>
+         <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file" th:class="${menu.icon}" th:text="' ' + ${menu.name}"></span></a>
+         <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+           <li class="menuitem" th:each="menuitem : ${menu.functions}">
+             <a href="javascript:void(0)" th:attr="url=${menuitem.url}">
+               <span class="am-icon-bug" th:class="${menuitem.icon}"></span> [[${menuitem.name}]]
+             </a>
+           </li>
          </ul>
         </li>
       </ul>

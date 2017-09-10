@@ -13,15 +13,12 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by 吴晓冬 on 2017/9/4.
@@ -67,6 +64,10 @@ public class UserController
         model.addAttribute("authorities", authorities);
 
         model.addAttribute("title", "新建用户");
+
+        User user = new User();
+        user.setAuthorities(new ArrayList<>());
+
         model.addAttribute("user", new User());
 
         return "users/save";
