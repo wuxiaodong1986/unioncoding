@@ -5,10 +5,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

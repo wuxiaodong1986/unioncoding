@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 过滤器配置
  * Created by 吴晓冬 on 2017/9/9.
  */
 @Configuration

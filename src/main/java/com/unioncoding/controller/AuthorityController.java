@@ -1,24 +1,26 @@
 package com.unioncoding.controller;
 
 import com.unioncoding.dao.AuthorityRepository;
-import com.unioncoding.dao.UserRepository;
+import com.unioncoding.dao.FunctionRepository;
 import com.unioncoding.model.Authority;
-import com.unioncoding.model.User;
-import com.unioncoding.utils.ErrorTypeEnum;
+import com.unioncoding.model.Function;
+import com.unioncoding.utils.CustomException;
 import com.unioncoding.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 角色管理
  * Created by 吴晓冬 on 2017/9/10.
  */
 @Controller
@@ -29,59 +31,91 @@ public class AuthorityController
     private AuthorityRepository authorityRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private FunctionRepository functionRepository;
 
-    @GetMapping("/save1")
-    @ResponseBody
-    public Authority save1()
+    @Value("${pageSize}")
+    private Integer pageSize;
+
+    /**
+     * 分页查询
+     */
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
+    public String list(Model model, Authority authority, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
     {
-        Authority authority = new Authority();
-        authority.setAuthority("test");
-        authority.setName("");
-//        authority.setFunctions(new ArrayList<>());
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
+        PageRequest pageRequest = new PageRequest(pageNumber, pageSize);
 
-        try
-        {
-            authorityRepository.save(authority);
-        }
-        catch (ConstraintViolationException e)//获取参数校验异常
-        {
-            List<String> msgList = new ArrayList<>();
-            for (ConstraintViolation<?> constraintViolation : e.getConstraintViolations())
-            {
-                msgList.add(constraintViolation.getMessage());
-            }
-            String messages = StringUtils.arrayToDelimitedString(msgList.toArray(new String[msgList.size()]), ";");
-            System.out.println(messages);
-        }
+        Page<Authority> page = authorityRepository.findAll(Example.of(authority, matcher), pageRequest);
+        model.addAttribute("page", page);
+        model.addAttribute("authority", authority);
+        model.addAttribute("title", "角色管理");
 
-        return authority;
+        return "authorities/list";
     }
 
-    @GetMapping("/save2")
-    @ResponseBody
-    public User save2()
+    /**
+     * 进入新增页面
+     */
+    @GetMapping("/save")
+    public String save(Model model)
     {
-        User user = new User();
-        user.setUsername("test");
-        user.setName("");
-//        user.setAuthorities(new ArrayList<>());
+        List<Function> functions = functionRepository.findAll();
+        model.addAttribute("functions", functions);
 
-        try
+        model.addAttribute("title", "新建角色");
+
+        Authority authority = new Authority();
+        authority.setFunctions(new ArrayList<>());
+        model.addAttribute("authority", authority);
+
+        return "authorities/save";
+    }
+
+    /**
+     * 进入修改页面
+     */
+    @GetMapping("/save/{id}")
+    public String save(Model model, @PathVariable("id") String id)
+    {
+        List<Function> functions = functionRepository.findAll();
+        model.addAttribute("functions", functions);
+
+        Authority authority = authorityRepository.findOne(id);
+        model.addAttribute("title", "修改角色");
+        model.addAttribute("authority", authority);
+
+        return "authorities/save";
+    }
+
+    /**
+     * 保存
+     */
+    @PostMapping("/save")
+    @ResponseBody
+    public Response save(Authority authority)
+    {
+        //保存前判断角色名是否已存在
+        Authority oldAuthority = authorityRepository.findOne(authority.getAuthority());
+        if (null != oldAuthority && oldAuthority.getAuthority() != authority.getAuthority())
         {
-            userRepository.save(user);
-        }
-        catch (ConstraintViolationException e)//获取参数校验异常
-        {
-            List<String> msgList = new ArrayList<>();
-            for (ConstraintViolation<?> constraintViolation : e.getConstraintViolations())
-            {
-                msgList.add(constraintViolation.getMessage());
-            }
-            String messages = StringUtils.arrayToDelimitedString(msgList.toArray(new String[msgList.size()]), ";");
-            System.out.println(messages);
+            throw new CustomException("9999", "角色名已被使用");
         }
 
-        return user;
+        authorityRepository.save(authority);
+
+        return new Response("0000", "操作成功");
+    }
+
+    /**
+     * 删除
+     */
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public Response delete(@PathVariable("id") String id)
+    {
+        authorityRepository.delete(id);
+
+        return new Response("0000", "操作成功");
     }
 }

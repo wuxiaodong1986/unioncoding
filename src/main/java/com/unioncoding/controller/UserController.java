@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 用户管理
  * Created by 吴晓冬 on 2017/9/4.
  */
 @Controller
@@ -37,7 +38,7 @@ public class UserController
     private Integer pageSize;
 
     /**
-     * 分页查询用户信息
+     * 分页查询信息
      */
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
     public String list(Model model, User user, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
@@ -46,8 +47,8 @@ public class UserController
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
         PageRequest pageRequest = new PageRequest(pageNumber, pageSize);
 
-        Page<User> userPage = userRepository.findAll(Example.of(user, matcher), pageRequest);
-        model.addAttribute("page", userPage);
+        Page<User> page = userRepository.findAll(Example.of(user, matcher), pageRequest);
+        model.addAttribute("page", page);
         model.addAttribute("user", user);
         model.addAttribute("title", "用户管理");
 
@@ -73,7 +74,7 @@ public class UserController
     }
 
     /**
-     * 进入修改用户页面
+     * 进入修改页面
      */
     @GetMapping("/save/{id}")
     public String save(Model model, @PathVariable("id") Long id)
@@ -89,7 +90,7 @@ public class UserController
     }
 
     /**
-     * 保存用户信息
+     * 保存
      */
     @PostMapping("/save")
     @ResponseBody
@@ -120,7 +121,7 @@ public class UserController
     }
 
     /**
-     * 删除用户信息
+     * 删除
      */
     @DeleteMapping("/{id}")
     @ResponseBody
