@@ -51,7 +51,7 @@
       </div>
 
       <div class="am-form-group">
-        <label for="enabled" class="am-u-sm-3 am-form-label">角色</label>
+        <label for="authorities" class="am-u-sm-3 am-form-label">角色</label>
         <div class="am-u-sm-9">
           <label class="am-checkbox-inline" th:each="authority : ${authorities}">
             <input type="checkbox" name="authorities" th:value="${authority.authority}" th:text="${authority.name}" th:checked="${#lists.contains(user.authorities,authority)}">

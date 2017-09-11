@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 /**
@@ -13,9 +14,12 @@ import java.util.List;
 public class Authority implements GrantedAuthority
 {
     @Id
+    @NotEmpty(message = "角色名不能为空")
+    @Size(min = 2,max = 20, message = "角色名长度需在2到20位")
     private String authority;
 
-    @NotEmpty(message = "Authority名称不能为null")
+    @NotEmpty(message = "角色描述不能为空")
+    @Size(min = 2,max = 20, message = "角色描述长度需在2到20位")
     private String name;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)

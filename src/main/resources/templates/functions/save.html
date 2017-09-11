@@ -1,0 +1,66 @@
+
+
+<div class="am-cf am-padding am-padding-bottom-0">
+  <div class="am-fl am-cf">
+    <strong class="am-text-primary am-text-lg" th:text="${title}">新增/修改</strong>
+  </div>
+</div>
+
+<hr>
+
+<div class="am-g">
+  <div class="am-u-sm-12 am-u-md-8">
+    <form id="saveForm" class="am-form am-form-horizontal" th:action="@{/functions/save}" th:attr="returnUrl=${session.pageHistory[1]}" th:object="${function}" onsubmit="return ajaxMainContainer('saveForm');">
+      <div class="am-form-group">
+        <label class="am-u-sm-3 am-form-label">菜单编号</label>
+        <div class="am-u-sm-9">
+          <input type="text" name="id" placeholder="菜单编号" th:value="*{id}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label class="am-u-sm-3 am-form-label">父菜单编号</label>
+        <div class="am-u-sm-9">
+          <input type="text" name="pId" placeholder="父菜单编号" th:value="*{pId}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label class="am-u-sm-3 am-form-label">菜单名称</label>
+        <div class="am-u-sm-9">
+          <input type="text" name="name" placeholder="菜单名称" th:value="*{name}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label class="am-u-sm-3 am-form-label">访问路径</label>
+        <div class="am-u-sm-9">
+          <input type="text" name="url" placeholder="访问路径" th:value="*{url}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label class="am-u-sm-3 am-form-label">菜单图标</label>
+        <div class="am-u-sm-9">
+          <input type="text" name="icon" placeholder="菜单图标" th:value="*{icon}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label class="am-u-sm-3 am-form-label">匹配地址</label>
+        <div class="am-u-sm-9">
+          <input type="text" name="matchUrl" placeholder="菜单下功能匹配地址，多个路径用,隔开" th:value="*{matchUrl}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <div class="am-u-sm-3 am-u-sm-push-3">
+          <button type="submit" class="am-btn am-btn-primary">保存修改</button>
+        </div>
+        <div class="am-u-sm-6 am-u-sm-push-3">
+          <button type="button" class="am-btn am-btn-primary" th:onclick="'javascript:getMainContainer(\''+(${session.pageHistory[1]})+'\');'">返回</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

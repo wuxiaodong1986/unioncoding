@@ -57,9 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 authoritySet.add(authority.getAuthority());
             }
 
-            if (!authoritySet.isEmpty() && !StringUtils.isEmpty(function.getMatch()))
+            if (!authoritySet.isEmpty() && !StringUtils.isEmpty(function.getMatchUrl()))
             {
-                registry = registry.antMatchers(function.getMatch().split(",")).hasAnyAuthority(authoritySet.toArray(new String[authoritySet.size()]));
+                registry = registry.antMatchers(function.getMatchUrl().split(",")).hasAnyAuthority(authoritySet.toArray(new String[authoritySet.size()]));
             }
         }
         //其他页面都需登录才可访问

@@ -1,6 +1,9 @@
 package com.unioncoding.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,17 +26,23 @@ public class Function
     }
 
     @Id
+    @NotEmpty(message = "菜单编号不能为空")
+    @Size(min = 2,max = 6, message = "菜单编号长度需在2到6位")
     private String id;
 
+    @NotEmpty(message = "父菜单编号不能为空")
+    @Size(min = 1,max = 4, message = "父菜单编号长度需在1到4位")
     private String pId;
 
+    @NotEmpty(message = "菜单名称不能为空")
+    @Size(min = 2,max = 10, message = "菜单名称长度需在2到10位")
     private String name;
 
     private String url;
 
     private String icon;
 
-    private String match;
+    private String matchUrl;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "authority_function", joinColumns = {@JoinColumn(name ="function_id")}, inverseJoinColumns = {@JoinColumn(name ="authority")})
@@ -92,14 +101,14 @@ public class Function
         this.icon = icon;
     }
 
-    public String getMatch()
+    public String getMatchUrl()
     {
-        return match;
+        return matchUrl;
     }
 
-    public void setMatch(String match)
+    public void setMatchUrl(String matchUrl)
     {
-        this.match = match;
+        this.matchUrl = matchUrl;
     }
 
     public List<Function> getFunctions()
