@@ -11,10 +11,11 @@
 <div class="am-g">
   <div class="am-u-sm-12 am-u-md-8">
     <form id="saveForm" class="am-form am-form-horizontal" th:action="@{/functions/save}" th:attr="returnUrl=${session.pageHistory[1]}" th:object="${function}" onsubmit="return ajaxMainContainer('saveForm');">
+      <input type="hidden" name="title" th:value="${title}" />
       <div class="am-form-group">
         <label class="am-u-sm-3 am-form-label">菜单编号</label>
         <div class="am-u-sm-9">
-          <input type="text" name="id" placeholder="菜单编号" th:value="*{id}">
+          <input type="text" name="id" placeholder="菜单编号" th:value="*{id}" th:readonly="${function.id != null}">
         </div>
       </div>
 

@@ -11,10 +11,11 @@
 <div class="am-g">
   <div class="am-u-sm-12 am-u-md-8">
     <form id="saveForm" class="am-form am-form-horizontal" th:action="@{/authorities/save}" th:attr="returnUrl=${session.pageHistory[1]}" th:object="${authority}" onsubmit="return ajaxMainContainer('saveForm');">
+      <input type="hidden" name="title" th:value="${title}" />
       <div class="am-form-group">
         <label for="authority" class="am-u-sm-3 am-form-label">角色名</label>
         <div class="am-u-sm-9">
-          <input type="text" id="authority" name="authority" placeholder="角色名" th:value="*{authority}">
+          <input type="text" id="authority" name="authority" placeholder="角色名" th:readonly="${authority.authority != null}" th:value="*{authority}">
         </div>
       </div>
 

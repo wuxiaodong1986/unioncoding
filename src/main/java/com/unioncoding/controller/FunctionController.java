@@ -79,11 +79,12 @@ public class FunctionController
      */
     @PostMapping("/save")
     @ResponseBody
-    public Response save(Function function)
+    public Response save(Function function, String title)
     {
         //保存前判断菜单编号是否已存在
         Function oldFunction = functionRepository.findOne(function.getId());
-        if (null != oldFunction && oldFunction.getId() != function.getId())
+
+        if ("新建菜单".equals(title) && null != oldFunction)
         {
             throw new CustomException("9999", "菜单编号已被使用");
         }

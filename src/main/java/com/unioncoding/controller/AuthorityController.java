@@ -93,11 +93,11 @@ public class AuthorityController
      */
     @PostMapping("/save")
     @ResponseBody
-    public Response save(Authority authority)
+    public Response save(Authority authority, String title)
     {
         //保存前判断角色名是否已存在
         Authority oldAuthority = authorityRepository.findOne(authority.getAuthority());
-        if (null != oldAuthority && oldAuthority.getAuthority() != authority.getAuthority())
+        if ("新建角色".equals(title) && null != oldAuthority)
         {
             throw new CustomException("9999", "角色名已被使用");
         }
