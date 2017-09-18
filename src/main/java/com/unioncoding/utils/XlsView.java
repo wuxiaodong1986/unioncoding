@@ -1,6 +1,5 @@
 package com.unioncoding.utils;
 
-import com.sun.deploy.net.URLEncoder;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -10,6 +9,7 @@ import org.springframework.web.servlet.view.document.AbstractXlsView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
