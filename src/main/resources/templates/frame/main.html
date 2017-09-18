@@ -164,6 +164,11 @@
       return false;
   }
 
+  function formDownLoad(formId, url)
+  {
+      window.location.href=url + "?" + $("#"+formId).serialize();
+  }
+
   function deleteMainContainer(url,returnUrl)
   {
       var csrfToken = $("meta[name='_csrf']").attr("content");

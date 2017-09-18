@@ -6,6 +6,7 @@ import com.unioncoding.model.Authority;
 import com.unioncoding.model.User;
 import com.unioncoding.utils.CustomException;
 import com.unioncoding.utils.Response;
+import com.unioncoding.utils.XlsView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Example;
@@ -18,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户管理
@@ -53,6 +56,32 @@ public class UserController
         model.addAttribute("title", "用户管理");
 
         return "users/list";
+    }
+
+    /**
+     * 根据查询条件生成下载xls
+     */
+    @GetMapping("/xls")
+    public XlsView xls(User user)
+    {
+        ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
+        List<User> users = userRepository.findAll(Example.of(user, matcher));
+
+        //查询展示内容
+        Map<String, String> titles = new LinkedHashMap<>();
+        titles.put("id","id");
+        titles.put("username","用户名");
+        titles.put("enabled","是否可用");
+        titles.put("name","姓名");
+        titles.put("phone","手机号");
+        titles.put("email","电子邮箱");
+
+        XlsView view = new XlsView();
+        view.addStaticAttribute("fileName", "用户信息.xls");
+        view.addStaticAttribute("titles", titles);
+        view.addStaticAttribute("objects", users);
+
+        return view;
     }
 
     /**
