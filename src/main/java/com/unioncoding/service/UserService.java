@@ -1,7 +1,7 @@
 package com.unioncoding.service;
 
-import com.unioncoding.dao.UserRepository;
-import com.unioncoding.model.User;
+import com.unioncoding.dao.SysUserRepository;
+import com.unioncoding.model.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,12 +18,12 @@ import java.util.Collection;
 public class UserService implements UserDetailsService
 {
     @Autowired
-    private UserRepository userRepository;
+    private SysUserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {
-        User user = userRepository.findByUsername(username);
+        SysUser user = userRepository.findByUsername(username);
 
         if (null == user)
         {

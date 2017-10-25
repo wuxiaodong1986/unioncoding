@@ -13,7 +13,7 @@ import java.util.List;
  * Created by 吴晓冬 on 2017/9/2.
  */
 @Entity
-public class User implements Serializable
+public class SysUser implements Serializable
 {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -40,10 +40,10 @@ public class User implements Serializable
     private String email;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_authority", joinColumns = {@JoinColumn(name ="id")}, inverseJoinColumns = {@JoinColumn(name ="authority")})
-    private List<Authority> authorities;
+    @JoinTable(name = "sys_user_authority", joinColumns = {@JoinColumn(name ="id")}, inverseJoinColumns = {@JoinColumn(name ="authority")})
+    private List<SysAuthority> authorities;
 
-    public List<Authority> getAuthorities()
+    public List<SysAuthority> getAuthorities()
     {
         return authorities;
     }
@@ -92,7 +92,7 @@ public class User implements Serializable
         this.enabled = enabled;
     }
 
-    public void setAuthorities(List<Authority> authorities)
+    public void setAuthorities(List<SysAuthority> authorities)
     {
         this.authorities = authorities;
     }

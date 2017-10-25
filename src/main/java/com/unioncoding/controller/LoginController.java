@@ -1,9 +1,7 @@
 package com.unioncoding.controller;
 
-import com.unioncoding.model.Authority;
-import com.unioncoding.model.Function;
-import com.unioncoding.model.User;
-import org.springframework.security.core.GrantedAuthority;
+import com.unioncoding.model.SysAuthority;
+import com.unioncoding.model.SysFunction;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -40,12 +37,12 @@ public class LoginController
         //获取已登录用户信息
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
         UserDetails user = (UserDetails) securityContextImpl.getAuthentication().getPrincipal();
-        List<Authority> authorities = (List<Authority>) user.getAuthorities();
+        List<SysAuthority> authorities = (List<SysAuthority>) user.getAuthorities();
         //获取该用户可访问所有菜单并去重
-        List<Function> functionList = new ArrayList<>();
-        for (Authority authority : authorities)
+        List<SysFunction> functionList = new ArrayList<>();
+        for (SysAuthority authority : authorities)
         {
-            for (Function function : authority.getFunctions())
+            for (SysFunction function : authority.getFunctions())
             {
                 if (!functionList.contains(function))
                 {
@@ -55,7 +52,7 @@ public class LoginController
         }
 
         //生成菜单树
-        Function root = new Function("0", "");
+        SysFunction root = new SysFunction("0", "");
         functionList.add(0, root);
         for (int i = 0; i < functionList.size(); i++)
         {

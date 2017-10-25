@@ -1,9 +1,9 @@
 package com.unioncoding.controller;
 
-import com.unioncoding.dao.AuthorityRepository;
-import com.unioncoding.dao.FunctionRepository;
-import com.unioncoding.model.Authority;
-import com.unioncoding.model.Function;
+import com.unioncoding.dao.SysAuthorityRepository;
+import com.unioncoding.dao.SysFunctionRepository;
+import com.unioncoding.model.SysAuthority;
+import com.unioncoding.model.SysFunction;
 import com.unioncoding.utils.CustomException;
 import com.unioncoding.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +28,10 @@ import java.util.List;
 public class AuthorityController
 {
     @Autowired
-    private AuthorityRepository authorityRepository;
+    private SysAuthorityRepository authorityRepository;
 
     @Autowired
-    private FunctionRepository functionRepository;
+    private SysFunctionRepository functionRepository;
 
     @Value("${pageSize}")
     private Integer pageSize;
@@ -40,13 +40,13 @@ public class AuthorityController
      * 分页查询
      */
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, Authority authority, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
+    public String list(Model model, SysAuthority authority, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
     {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
         PageRequest pageRequest = new PageRequest(pageNumber, pageSize);
 
-        Page<Authority> page = authorityRepository.findAll(Example.of(authority, matcher), pageRequest);
+        Page<SysAuthority> page = authorityRepository.findAll(Example.of(authority, matcher), pageRequest);
         model.addAttribute("page", page);
         model.addAttribute("authority", authority);
         model.addAttribute("title", "角色管理");
@@ -60,12 +60,12 @@ public class AuthorityController
     @GetMapping("/save")
     public String save(Model model)
     {
-        List<Function> functions = functionRepository.findAll();
+        List<SysFunction> functions = functionRepository.findAll();
         model.addAttribute("functions", functions);
 
         model.addAttribute("title", "新建角色");
 
-        Authority authority = new Authority();
+        SysAuthority authority = new SysAuthority();
         authority.setFunctions(new ArrayList<>());
         model.addAttribute("authority", authority);
 
@@ -78,10 +78,10 @@ public class AuthorityController
     @GetMapping("/save/{id}")
     public String save(Model model, @PathVariable("id") String id)
     {
-        List<Function> functions = functionRepository.findAll();
+        List<SysFunction> functions = functionRepository.findAll();
         model.addAttribute("functions", functions);
 
-        Authority authority = authorityRepository.findOne(id);
+        SysAuthority authority = authorityRepository.findOne(id);
         model.addAttribute("title", "修改角色");
         model.addAttribute("authority", authority);
 
@@ -93,10 +93,10 @@ public class AuthorityController
      */
     @PostMapping("/save")
     @ResponseBody
-    public Response save(Authority authority, String title)
+    public Response save(SysAuthority authority, String title)
     {
         //保存前判断角色名是否已存在
-        Authority oldAuthority = authorityRepository.findOne(authority.getAuthority());
+        SysAuthority oldAuthority = authorityRepository.findOne(authority.getAuthority());
         if ("新建角色".equals(title) && null != oldAuthority)
         {
             throw new CustomException("9999", "角色名已被使用");

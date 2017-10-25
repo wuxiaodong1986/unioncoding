@@ -11,14 +11,14 @@ import java.util.List;
  * Created by 吴晓冬 on 2017/9/5.
  */
 @Entity
-public class Function
+public class SysFunction
 {
-    public Function()
+    public SysFunction()
     {
 
     }
 
-    public Function(String id, String pId)
+    public SysFunction(String id, String pId)
     {
         this.id = id;
 
@@ -45,11 +45,11 @@ public class Function
     private String matchUrl;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "authority_function", joinColumns = {@JoinColumn(name ="function_id")}, inverseJoinColumns = {@JoinColumn(name ="authority")})
-    private List<Authority> authorities;
+    @JoinTable(name = "sys_authority_function", joinColumns = {@JoinColumn(name ="function_id")}, inverseJoinColumns = {@JoinColumn(name ="authority")})
+    private List<SysAuthority> authorities;
 
     @Transient
-    private List<Function> functions = new ArrayList<>();
+    private List<SysFunction> functions = new ArrayList<>();
 
     public String getId()
     {
@@ -111,22 +111,22 @@ public class Function
         this.matchUrl = matchUrl;
     }
 
-    public List<Function> getFunctions()
+    public List<SysFunction> getFunctions()
     {
         return functions;
     }
 
-    public void setFunctions(List<Function> functions)
+    public void setFunctions(List<SysFunction> functions)
     {
         this.functions = functions;
     }
 
-    public List<Authority> getAuthorities()
+    public List<SysAuthority> getAuthorities()
     {
         return authorities;
     }
 
-    public void setAuthorities(List<Authority> authorities)
+    public void setAuthorities(List<SysAuthority> authorities)
     {
         this.authorities = authorities;
     }

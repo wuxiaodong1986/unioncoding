@@ -58,8 +58,8 @@
     <div class="am-offcanvas-bar admin-offcanvas-bar">
        <ul class="am-list admin-sidebar-list">
         <li class="admin-parent" th:each="menu : ${functions}">
-         <a class="am-cf" data-am-collapse="{target: '#collapse-nav'}"><span class="am-icon-file" th:class="${menu.icon}" th:text="' ' + ${menu.name}"></span></a>
-         <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav">
+         <a class="am-cf menu"><span class="am-icon-file" th:class="${menu.icon}" th:text="' ' + ${menu.name}"></span></a>
+         <ul class="am-list am-collapse admin-sidebar-sub am-in">
            <li class="menuitem" th:each="menuitem : ${menu.functions}">
              <a href="javascript:void(0)" th:attr="url=${menuitem.url}">
                <span class="am-icon-bug" th:class="${menuitem.icon}"></span> [[${menuitem.name}]]
@@ -117,6 +117,20 @@
 
 <script>
   $(function () {
+      //收缩除第一个外所有菜单
+      var menus = $("#admin-offcanvas .am-in");
+      for (var i = 1; i < menus.length; i++)
+      {
+          menus.eq(i).collapse('close');
+      }
+
+      //某个菜单被点击收缩其他所有菜单展开旗下菜单
+      $("#admin-offcanvas .menu").click(function()
+      {
+          $("#admin-offcanvas .am-in").collapse('close');
+          $(this).next().collapse('toggle');
+      });
+
       $(".menuitem a").click(function() {
 
           var url = $(this).attr("url");

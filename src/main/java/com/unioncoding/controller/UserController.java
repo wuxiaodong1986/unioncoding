@@ -1,9 +1,9 @@
 package com.unioncoding.controller;
 
-import com.unioncoding.dao.AuthorityRepository;
-import com.unioncoding.dao.UserRepository;
-import com.unioncoding.model.Authority;
-import com.unioncoding.model.User;
+import com.unioncoding.dao.SysAuthorityRepository;
+import com.unioncoding.dao.SysUserRepository;
+import com.unioncoding.model.SysAuthority;
+import com.unioncoding.model.SysUser;
 import com.unioncoding.utils.CustomException;
 import com.unioncoding.utils.Response;
 import com.unioncoding.utils.XlsView;
@@ -32,10 +32,10 @@ import java.util.Map;
 public class UserController
 {
     @Autowired
-    private UserRepository userRepository;
+    private SysUserRepository userRepository;
 
     @Autowired
-    private AuthorityRepository authorityRepository;
+    private SysAuthorityRepository authorityRepository;
 
     @Value("${pageSize}")
     private Integer pageSize;
@@ -44,13 +44,13 @@ public class UserController
      * 分页查询信息
      */
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, User user, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
+    public String list(Model model, SysUser user, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
     {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
         PageRequest pageRequest = new PageRequest(pageNumber, pageSize);
 
-        Page<User> page = userRepository.findAll(Example.of(user, matcher), pageRequest);
+        Page<SysUser> page = userRepository.findAll(Example.of(user, matcher), pageRequest);
         model.addAttribute("page", page);
         model.addAttribute("user", user);
         model.addAttribute("title", "用户管理");
@@ -62,10 +62,10 @@ public class UserController
      * 根据查询条件生成下载xls
      */
     @GetMapping("/xls")
-    public XlsView xls(User user)
+    public XlsView xls(SysUser user)
     {
         ExampleMatcher matcher = ExampleMatcher.matching().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
-        List<User> users = userRepository.findAll(Example.of(user, matcher));
+        List<SysUser> users = userRepository.findAll(Example.of(user, matcher));
 
         //查询展示内容
         Map<String, String> titles = new LinkedHashMap<>();
@@ -90,12 +90,12 @@ public class UserController
     @GetMapping("/save")
     public String save(Model model)
     {
-        List<Authority> authorities = authorityRepository.findAll();
+        List<SysAuthority> authorities = authorityRepository.findAll();
         model.addAttribute("authorities", authorities);
 
         model.addAttribute("title", "新建用户");
 
-        User user = new User();
+        SysUser user = new SysUser();
         user.setAuthorities(new ArrayList<>());
         model.addAttribute("user", user);
 
@@ -108,10 +108,10 @@ public class UserController
     @GetMapping("/save/{id}")
     public String save(Model model, @PathVariable("id") Long id)
     {
-        List<Authority> authorities = authorityRepository.findAll();
+        List<SysAuthority> authorities = authorityRepository.findAll();
         model.addAttribute("authorities", authorities);
 
-        User user = userRepository.findOne(id);
+        SysUser user = userRepository.findOne(id);
         model.addAttribute("title", "修改用户");
         model.addAttribute("user", user);
 
@@ -123,10 +123,10 @@ public class UserController
      */
     @PostMapping("/save")
     @ResponseBody
-    public Response save(User user)
+    public Response save(SysUser user)
     {
         //保存前判断用户名是否已存在
-        User oldUser = userRepository.findByUsername(user.getUsername());
+        SysUser oldUser = userRepository.findByUsername(user.getUsername());
         if (null != oldUser && oldUser.getId() != user.getId())
         {
             throw new CustomException("9999", "用户名已被使用");

@@ -1,8 +1,8 @@
 package com.unioncoding.config;
 
-import com.unioncoding.dao.FunctionRepository;
-import com.unioncoding.model.Authority;
-import com.unioncoding.model.Function;
+import com.unioncoding.dao.SysFunctionRepository;
+import com.unioncoding.model.SysAuthority;
+import com.unioncoding.model.SysFunction;
 import com.unioncoding.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private UserService userService;
 
     @Autowired
-    private FunctionRepository functionRepository;
+    private SysFunctionRepository functionRepository;
 
     /**
      * 配置过滤规则
@@ -41,18 +41,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         //获取所有功能信息
-        List<Function> functions = functionRepository.findAll();
+        List<SysFunction> functions = functionRepository.findAll();
 
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http.authorizeRequests();
         //设置不登录可访问页面
         registry = registry.antMatchers("/ui/**", "/").permitAll();
         //设置需要登录且需要授权才可以访问的页面
-        for (Function function : functions)
+        for (SysFunction function : functions)
         {
             Set<String> authoritySet = new HashSet<>();
 
-            List<Authority> authorities = function.getAuthorities();
-            for (Authority authority : authorities)
+            List<SysAuthority> authorities = function.getAuthorities();
+            for (SysAuthority authority : authorities)
             {
                 authoritySet.add(authority.getAuthority());
             }

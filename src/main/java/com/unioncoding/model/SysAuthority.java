@@ -11,7 +11,7 @@ import java.util.List;
  * Created by 吴晓冬 on 2017/9/2.
  */
 @Entity
-public class Authority implements GrantedAuthority
+public class SysAuthority implements GrantedAuthority
 {
     @Id
     @NotEmpty(message = "角色名不能为空")
@@ -23,8 +23,8 @@ public class Authority implements GrantedAuthority
     private String name;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "authority_function", joinColumns = {@JoinColumn(name ="authority")}, inverseJoinColumns = {@JoinColumn(name ="function_id")})
-    private List<Function> functions;
+    @JoinTable(name = "sys_authority_function", joinColumns = {@JoinColumn(name ="authority")}, inverseJoinColumns = {@JoinColumn(name ="function_id")})
+    private List<SysFunction> functions;
 
     @Override
     public String getAuthority()
@@ -47,12 +47,12 @@ public class Authority implements GrantedAuthority
         this.name = name;
     }
 
-    public List<Function> getFunctions()
+    public List<SysFunction> getFunctions()
     {
         return functions;
     }
 
-    public void setFunctions(List<Function> functions)
+    public void setFunctions(List<SysFunction> functions)
     {
         this.functions = functions;
     }

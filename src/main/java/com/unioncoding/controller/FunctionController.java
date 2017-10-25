@@ -1,7 +1,7 @@
 package com.unioncoding.controller;
 
-import com.unioncoding.dao.FunctionRepository;
-import com.unioncoding.model.Function;
+import com.unioncoding.dao.SysFunctionRepository;
+import com.unioncoding.model.SysFunction;
 import com.unioncoding.utils.CustomException;
 import com.unioncoding.utils.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class FunctionController
 {
     @Autowired
-    private FunctionRepository functionRepository;
+    private SysFunctionRepository functionRepository;
 
     @Value("${pageSize}")
     private Integer pageSize;
@@ -33,13 +33,13 @@ public class FunctionController
      * 分页查询
      */
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, Function function, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
+    public String list(Model model, SysFunction function, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
     {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
         PageRequest pageRequest = new PageRequest(pageNumber, pageSize);
 
-        Page<Function> page = functionRepository.findAll(Example.of(function, matcher), pageRequest);
+        Page<SysFunction> page = functionRepository.findAll(Example.of(function, matcher), pageRequest);
         model.addAttribute("page", page);
         model.addAttribute("function", function);
         model.addAttribute("title", "菜单管理");
@@ -55,7 +55,7 @@ public class FunctionController
     {
         model.addAttribute("title", "新建菜单");
 
-        Function function = new Function();
+        SysFunction function = new SysFunction();
         model.addAttribute("function", function);
 
         return "functions/save";
@@ -67,7 +67,7 @@ public class FunctionController
     @GetMapping("/save/{id}")
     public String save(Model model, @PathVariable("id") String id)
     {
-        Function function = functionRepository.findOne(id);
+        SysFunction function = functionRepository.findOne(id);
         model.addAttribute("title", "修改菜单");
         model.addAttribute("function", function);
 
@@ -79,10 +79,10 @@ public class FunctionController
      */
     @PostMapping("/save")
     @ResponseBody
-    public Response save(Function function, String title)
+    public Response save(SysFunction function, String title)
     {
         //保存前判断菜单编号是否已存在
-        Function oldFunction = functionRepository.findOne(function.getId());
+        SysFunction oldFunction = functionRepository.findOne(function.getId());
 
         if ("新建菜单".equals(title) && null != oldFunction)
         {
