@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/authorities")
-public class AuthorityController
+public class SysAuthorityController
 {
     @Autowired
     private SysAuthorityRepository authorityRepository;

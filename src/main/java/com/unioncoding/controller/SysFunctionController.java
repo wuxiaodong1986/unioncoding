@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @RequestMapping("/functions")
-public class FunctionController
+public class SysFunctionController
 {
     @Autowired
     private SysFunctionRepository functionRepository;

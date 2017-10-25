@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/users")
-public class UserController
+public class SysUserController
 {
     @Autowired
     private SysUserRepository userRepository;

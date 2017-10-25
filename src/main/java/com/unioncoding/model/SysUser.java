@@ -39,7 +39,7 @@ public class SysUser implements Serializable
     @Email(message = "邮箱不符合规范")
     private String email;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "sys_user_authority", joinColumns = {@JoinColumn(name ="id")}, inverseJoinColumns = {@JoinColumn(name ="authority")})
     private List<SysAuthority> authorities;
 

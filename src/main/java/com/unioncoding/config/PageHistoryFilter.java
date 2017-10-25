@@ -34,7 +34,7 @@ public class PageHistoryFilter implements Filter
 
         String url = request.getServletPath();
 
-        if (!url.contains(".") && "GET".equals(request.getMethod()))
+        if (!url.contains(".") && "GET".equals(request.getMethod()) && !url.endsWith("xls"))
         {
             pageHistory.add(0, url);
         }
