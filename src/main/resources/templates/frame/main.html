@@ -185,6 +185,10 @@
 
   function deleteMainContainer(url,returnUrl)
   {
+      if (!confirm("确定要删除吗？"))
+      {
+        return false;
+      }
       var csrfToken = $("meta[name='_csrf']").attr("content");
       var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 

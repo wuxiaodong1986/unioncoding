@@ -42,5 +42,7 @@ dependencies {
 	compile('com.google.code.gson:gson:2.8.1')
 	compile('org.apache.poi:poi-ooxml:3.16')
 
+	compile 'com.aliyun.oss:aliyun-sdk-oss:2.7.0'
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

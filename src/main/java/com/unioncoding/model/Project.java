@@ -2,6 +2,7 @@ package com.unioncoding.model;
 
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -32,6 +33,8 @@ public class Project
     @OneToOne
     @JoinColumn(name="owner")
     private SysUser owner;
+
+    private String dscb;
 
     public Long getId()
     {
@@ -81,5 +84,15 @@ public class Project
     public void setOwner(SysUser owner)
     {
         this.owner = owner;
+    }
+
+    public String getDscb()
+    {
+        return dscb;
+    }
+
+    public void setDscb(String dscb)
+    {
+        this.dscb = dscb;
     }
 }
