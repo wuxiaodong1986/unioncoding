@@ -1,7 +1,9 @@
 package com.unioncoding.controller;
 
+import com.unioncoding.dao.IssueRepository;
 import com.unioncoding.dao.ProjectRepository;
 import com.unioncoding.dao.SysUserRepository;
+import com.unioncoding.model.Issue;
 import com.unioncoding.model.Project;
 import com.unioncoding.model.SysUser;
 import com.unioncoding.utils.Response;
@@ -18,42 +20,46 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 项目管理
- * Created by 吴晓冬 on 2017/10/25.
+ * 问题管理
+ * Created by 吴晓冬 on 2017/10/30.
  */
 @Controller
-@RequestMapping("/projects")
-public class ProjectController
+@RequestMapping("/issues")
+public class IssueController
 {
     @Autowired
-    private ProjectRepository projectRepository;
+    private IssueRepository repository;
 
     @Autowired
     private SysUserRepository userRepository;
 
+    @Autowired
+    private ProjectRepository projectRepository;
+
     @Value("${pageSize}")
     private Integer pageSize;
+
 
     /**
      * 分页查询信息
      */
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, Project project, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
+    public String list(Model model, Issue issue, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
     {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
         PageRequest pageRequest = new PageRequest(pageNumber, pageSize);
 
-        Page<Project> page = projectRepository.findAll(Example.of(project, matcher), pageRequest);
+        Page<Issue> page = repository.findAll(Example.of(issue, matcher), pageRequest);
 
         List<SysUser> users = userRepository.findAll();
 
         model.addAttribute("users", users);
         model.addAttribute("page", page);
-        model.addAttribute("project", project);
-        model.addAttribute("title", "项目管理");
+        model.addAttribute("issue", issue);
+        model.addAttribute("title", "问题管理");
 
-        return "projects/list";
+        return "issues/list";
     }
 
     /**
@@ -65,12 +71,15 @@ public class ProjectController
         List<SysUser> users = userRepository.findAll();
         model.addAttribute("users", users);
 
-        model.addAttribute("title", "新建项目");
+        List<Project> projects = projectRepository.findAll();
+        model.addAttribute("projects", projects);
 
-        Project project = new Project();
-        model.addAttribute("project", project);
+        model.addAttribute("title", "新建问题");
 
-        return "projects/save";
+        Issue issue = new Issue();
+        model.addAttribute("issue", issue);
+
+        return "issues/save";
     }
 
     /**
@@ -82,11 +91,15 @@ public class ProjectController
         List<SysUser> users = userRepository.findAll();
         model.addAttribute("users", users);
 
-        Project project = projectRepository.findOne(id);
-        model.addAttribute("title", "修改项目");
-        model.addAttribute("project", project);
+        List<Project> projects = projectRepository.findAll();
+        model.addAttribute("projects", projects);
 
-        return "projects/save";
+        Issue issue = repository.findOne(id);
+        model.addAttribute("issue", issue);
+
+        model.addAttribute("title", "修改问题");
+
+        return "issues/save";
     }
 
     /**
@@ -94,9 +107,9 @@ public class ProjectController
      */
     @PostMapping("/save")
     @ResponseBody
-    public Response save(Project project)
+    public Response save(Issue issue)
     {
-        projectRepository.save(project);
+        repository.save(issue);
 
         return new Response("0000", "操作成功");
     }
@@ -108,24 +121,8 @@ public class ProjectController
     @ResponseBody
     public Response delete(@PathVariable("id") Long id)
     {
-        projectRepository.delete(id);
+        repository.delete(id);
 
         return new Response("0000", "操作成功");
-    }
-
-    /**
-     * 进入查看页面
-     */
-    @GetMapping("/view/{id}")
-    public String view(Model model, @PathVariable("id") Long id)
-    {
-        List<SysUser> users = userRepository.findAll();
-        model.addAttribute("users", users);
-
-        Project project = projectRepository.findOne(id);
-        model.addAttribute("title", "查看项目");
-        model.addAttribute("project", project);
-
-        return "projects/view";
     }
 }

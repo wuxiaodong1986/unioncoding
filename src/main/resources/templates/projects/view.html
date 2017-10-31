@@ -1,0 +1,166 @@
+
+
+<div class="am-cf am-padding am-padding-bottom-0">
+  <div class="am-fl am-cf">
+    <strong class="am-text-primary am-text-lg" th:text="${title}">新增/修改 用户</strong>
+  </div>
+</div>
+
+<hr>
+
+<div class="am-g">
+  <div id="markdown" class="am-u-sm-12 am-u-md-6 am-u-md-push-6 am-scrollable-vertical">
+  </div>
+
+  <div class="am-u-sm-12 am-u-md-6 am-u-md-pull-6">
+    <form id="saveForm" class="am-form am-form-horizontal" th:action="@{/projects/save}" th:attr="returnUrl=${session.pageHistory[1]}" th:object="${project}" onsubmit="return ajaxMainContainer('saveForm');">
+      <input type="hidden" name="id" th:value="*{id}">
+
+      <div class="am-form-group">
+        <label class="am-u-sm-3 am-form-label">标题</label>
+        <div class="am-u-sm-9">
+          <input type="text" name="title" placeholder="标题" th:value="*{title}">
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label class="am-u-sm-3 am-form-label">项目负责人</label>
+        <div class="am-u-sm-9">
+          <select name="owner" data-am-selected="{btnWidth: '100%'}">
+            <option value=""></option>
+            <option value="a" th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}+'('+${user.username}+')'" th:selected="${user == project.owner}">Apple</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <label class="am-u-sm-3 am-form-label">描述</label>
+        <div class="am-u-sm-9">
+          <textarea name="dscb" th:text="${project.dscb}" rows="20"></textarea>
+        </div>
+      </div>
+
+      <div class="am-form-group">
+        <div class="am-u-sm-3 am-u-sm-push-3">
+          <button type="submit" class="am-btn am-btn-primary">保存修改</button>
+        </div>
+        <div class="am-u-sm-6 am-u-sm-push-3">
+          <button type="button" class="am-btn am-btn-primary" th:onclick="'javascript:getMainContainer(\''+(${session.pageHistory[1]})+'\');'">返回</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/ui/showdown/dist/showdown.min.js"></script>
+<script src="/ui/paste-upload/paste-upload-image.js"></script>
+<script src="/ui/amazeui/assets/js/amazeui.min.js"></script>
+<script>
+    $(document).ready(function(){
+        initMarkdown();
+
+        $("textarea[name='dscb']").bind('input propertychange', function(){
+            initMarkdown();
+        });
+
+        //黏贴操作时，如果粘贴内容是图片，则上传图片
+        $("textarea[name='dscb']").bind('paste', function(event){
+            var pasteEvent = event.originalEvent;
+            if (pasteEvent.clipboardData && pasteEvent.clipboardData.items)
+            {
+                if (pasteEvent.clipboardData.items[0].type.indexOf("image") !== -1)
+                {
+                    var formData = new FormData();
+                    formData.append('file', pasteEvent.clipboardData.items[0].getAsFile());
+
+                    var csrfToken = $("meta[name='_csrf']").attr("content");
+                    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+                    $.ajax({
+                        beforeSend: function(request) {
+                            request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
+                        },
+                        type: "POST",
+                        url: "/pasteImage",
+                        data: formData,
+                        dataType: "json",
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        success: function (data, textStatus) {
+                            if (data.retCode == '0000')
+                            {
+                                var text = '!['+data.body.filename+']('+data.body.url+')';
+                                $("textarea[name='dscb']").insertContent(text);
+                                initMarkdown();
+                            }
+                            else
+                            {
+                                alert(data.retMsg);
+                            }
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(XMLHttpRequest.status + " 你懂的");
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    $(function() {
+      /* 在textarea处插入文本--Start */
+        (function($) {
+            $.fn.extend({
+                insertContent : function(myValue, t) {
+                    var $t = $(this)[0];
+                    if (document.selection) { // ie
+                        this.focus();
+                        var sel = document.selection.createRange();
+                        sel.text = myValue;
+                        this.focus();
+                        sel.moveStart('character', -l);
+                        var wee = sel.text.length;
+                        if (arguments.length == 2) {
+                            var l = $t.value.length;
+                            sel.moveEnd("character", wee + t);
+                            t <= 0 ? sel.moveStart("character", wee - 2 * t - myValue.length) : sel.moveStart( "character", wee - t - myValue.length);
+                            sel.select();
+                        }
+                    } else if ($t.selectionStart
+                        || $t.selectionStart == '0') {
+                        var startPos = $t.selectionStart;
+                        var endPos = $t.selectionEnd;
+                        var scrollTop = $t.scrollTop;
+                        $t.value = $t.value.substring(0, startPos)
+                            + myValue
+                            + $t.value.substring(endPos,$t.value.length);
+                        this.focus();
+                        $t.selectionStart = startPos + myValue.length;
+                        $t.selectionEnd = startPos + myValue.length;
+                        $t.scrollTop = scrollTop;
+                        if (arguments.length == 2) {
+                            $t.setSelectionRange(startPos - t,
+                                $t.selectionEnd + t);
+                            this.focus();
+                        }
+                    } else {
+                        this.value += myValue;
+                        this.focus();
+                    }
+                }
+            })
+        })(jQuery);
+      /* 在textarea处插入文本--Ending */
+    });
+
+    function initMarkdown() {
+        var text = $("textarea[name='dscb']").val();
+        //创建实例
+        var converter = new showdown.Converter();
+        //进行转换
+        var html = converter.makeHtml(text);
+        $("#markdown").html(html);
+        $("#markdown").height($("#markdown").next().height());
+    }
+</script>
