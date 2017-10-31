@@ -64,8 +64,8 @@
       <tbody>
       <tr th:each="project : ${page.content}">
         <td class="am-hide-sm-only" th:text="${project.id}">1</td>
-        <td th:text="${project.title}">标题</td>
-        <td class="am-hide-sm-only"  th:text="${#dates.format(project.createtime,'yyyy-MM-dd HH:mm:ss')}">2017-01-01</td>
+        <td th:onclick="'javascript:getMainContainer(\'/projects/view/'+(${project.id})+'\');'"><a th:text="${project.title}">标题</a></td>
+        <td class="am-hide-sm-only" th:text="${#dates.format(project.createtime,'yyyy-MM-dd HH:mm:ss')}">2017-01-01</td>
         <td th:text="${project.creater.name}">创建者</td>
         <td th:text="${project.owner.name}">负责人</td>
         <td>

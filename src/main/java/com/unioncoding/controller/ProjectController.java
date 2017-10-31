@@ -119,9 +119,6 @@ public class ProjectController
     @GetMapping("/view/{id}")
     public String view(Model model, @PathVariable("id") Long id)
     {
-        List<SysUser> users = userRepository.findAll();
-        model.addAttribute("users", users);
-
         Project project = projectRepository.findOne(id);
         model.addAttribute("title", "查看项目");
         model.addAttribute("project", project);
