@@ -2,6 +2,8 @@ package com.unioncoding.controller;
 
 import com.unioncoding.model.SysAuthority;
 import com.unioncoding.model.SysFunction;
+import com.unioncoding.model.SysUser;
+import com.unioncoding.service.UserService;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -36,8 +38,10 @@ public class LoginController
     {
         //获取已登录用户信息
         SecurityContextImpl securityContextImpl = (SecurityContextImpl) session.getAttribute("SPRING_SECURITY_CONTEXT");
-        UserDetails user = (UserDetails) securityContextImpl.getAuthentication().getPrincipal();
-        List<SysAuthority> authorities = (List<SysAuthority>) user.getAuthorities();
+        UserService.SysUserDetails userDetails = (UserService.SysUserDetails)  securityContextImpl.getAuthentication().getPrincipal();
+
+        SysUser user = userDetails.getUser();
+        List<SysAuthority> authorities = (List<SysAuthority>) userDetails.getAuthorities();
         //获取该用户可访问所有菜单并去重
         List<SysFunction> functionList = new ArrayList<>();
         for (SysAuthority authority : authorities)
@@ -68,8 +72,9 @@ public class LoginController
             }
         }
 
+        model.addAttribute("user", user);
         model.addAttribute("functions", root.getFunctions());
 
-        return new ModelAndView("frame/main", "model", model);
+        return new ModelAndView("frame/main2", "model", model);
     }
 }
