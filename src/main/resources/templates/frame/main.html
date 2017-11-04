@@ -11,239 +11,174 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="/ui/amazeui/assets/i/favicon.png">
-  <link rel="apple-touch-icon-precomposed" href="/ui/amazeui/assets/i/app-icon72x72@2x.png">
+  <link rel="icon" type="image/png" href="/ui/amazeuiModel/assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/ui/amazeuiModel/assets/i/app-icon72x72@2x.png">
   <meta name="apple-mobile-web-app-title" content="UnionCoding" />
-  <link rel="stylesheet" href="/ui/amazeui/assets/css/amazeui.min.css"/>
-  <link rel="stylesheet" href="/ui/amazeui/assets/css/admin.css">
+  <link rel="stylesheet" href="/ui/amazeuiModel/assets/css/amazeui.min.css" />
+  <link rel="stylesheet" href="/ui/amazeuiModel/assets/css/amazeui.datatables.min.css" />
+  <link rel="stylesheet" href="/ui/amazeuiModel/assets/css/app.css">
   <!-- CSRF -->
   <meta name="_csrf" th:content="${_csrf.token}"/>
   <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
-<body>
-<!--[if lte IE 9]>
-<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，本站 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
-  以获得更好的体验！</p>
-<![endif]-->
 
-<header class="am-topbar am-topbar-inverse admin-header">
-  <div class="am-topbar-brand">
-    <strong>项目综合管理</strong>
-  </div>
+<body data-type="index">
 
-  <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+<div class="am-g tpl-g">
+  <!-- 头部 -->
+  <header>
+    <!-- logo -->
+    <div class="am-fl tpl-header-logo">
+      <a href="javascript:;"><img src="/ui/amazeuiModel/assets/img/logo.png" alt=""></a>
+    </div>
+    <!-- 右侧内容 -->
+    <div class="tpl-header-fluid">
+      <div class="am-fr tpl-header-navbar">
+        <ul>
+          <!-- 欢迎语 -->
+          <li class="am-text-sm tpl-header-navbar-welcome">
+            <a href="javascript:;">欢迎你, <span th:text="${user.name}">Amaze UI</span> </a>
+          </li>
 
-  <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+          <!-- 新提示 -->
+          <li class="am-dropdown" data-am-dropdown>
+            <a href="javascript:;" class="am-dropdown-toggle" data-am-dropdown-toggle>
+              <i class="am-icon-bell"></i>
+              <span class="am-badge am-badge-warning am-round item-feed-badge">5</span>
+            </a>
 
-    <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-      <li class="am-dropdown" data-am-dropdown>
-        <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-          <span class="am-icon-users"></span> 管理员 <span class="am-icon-caret-down"></span>
+            <!-- 弹出列表 -->
+            <ul class="am-dropdown-content tpl-dropdown-content">
+              <li class="tpl-dropdown-menu-notifications">
+                <a href="javascript:;" class="tpl-dropdown-menu-notifications-item am-cf">
+                  <div class="tpl-dropdown-menu-notifications-title">
+                    <i class="am-icon-line-chart"></i>
+                    <span> 有6笔新的销售订单</span>
+                  </div>
+                  <div class="tpl-dropdown-menu-notifications-time">
+                    12分钟前
+                  </div>
+                </a>
+              </li>
+              <li class="tpl-dropdown-menu-notifications">
+                <a href="javascript:;" class="tpl-dropdown-menu-notifications-item am-cf">
+                  <div class="tpl-dropdown-menu-notifications-title">
+                    <i class="am-icon-star"></i>
+                    <span> 有3个来自人事部的消息</span>
+                  </div>
+                  <div class="tpl-dropdown-menu-notifications-time">
+                    30分钟前
+                  </div>
+                </a>
+              </li>
+              <li class="tpl-dropdown-menu-notifications">
+                <a href="javascript:;" class="tpl-dropdown-menu-notifications-item am-cf">
+                  <div class="tpl-dropdown-menu-notifications-title">
+                    <i class="am-icon-folder-o"></i>
+                    <span> 上午开会记录存档</span>
+                  </div>
+                  <div class="tpl-dropdown-menu-notifications-time">
+                    1天前
+                  </div>
+                </a>
+              </li>
+
+
+              <li class="tpl-dropdown-menu-notifications">
+                <a href="javascript:;" class="tpl-dropdown-menu-notifications-item am-cf">
+                  <i class="am-icon-bell"></i> 进入列表…
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 退出 -->
+          <li class="am-text-sm">
+            <a href="javascript:;" onclick="logout();">
+              <span class="am-icon-sign-out"></span> 退出
+              <form id="logoutForm" action="/logout" th:action="@{/logout}" method="post">
+              </form>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </header>
+  <!-- 侧边导航栏 -->
+  <div class="left-sidebar">
+    <!-- 用户信息 -->
+    <div class="tpl-sidebar-user-panel">
+      <div class="tpl-user-panel-slide-toggleable">
+        <div class="tpl-user-panel-profile-picture">
+          <img src="/ui/amazeuiModel/assets/img/user04.png" alt="">
+        </div>
+        <span class="user-panel-logged-in-text">
+              <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
+              禁言小张
+          </span>
+        <a href="javascript:;" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 账号设置</a>
+      </div>
+    </div>
+
+    <!-- 菜单 -->
+    <ul class="sidebar-nav">
+      <li class="sidebar-nav-link" th:each="menu : ${functions}">
+        <a href="javascript:;" class="sidebar-nav-sub-title">
+          <i class="am-icon-table sidebar-nav-link-logo" th:class="${menu.icon} + ' sidebar-nav-link-logo'"></i> <span th:text="${menu.name}">大菜单</span>
+          <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
         </a>
-        <ul class="am-dropdown-content">
-          <li><a href="#"><span class="am-icon-cog"></span> 个人信息</a></li>
-          <li><a href="#" onclick="logout();"><span class="am-icon-power-off"></span> 退出</a></li>
-          <form id="logoutForm" action="/logout" th:action="@{/logout}" method="post">
-          </form>
+        <ul class="sidebar-nav sidebar-nav-sub">
+          <li class="sidebar-nav-link menuitem" th:each="menuitem : ${menu.functions}">
+            <a href="javascript:void(0)" th:attr="url=${menuitem.url}">
+              <span class="am-icon-angle-right sidebar-nav-link-logo" th:class="${menuitem.icon} + ' sidebar-nav-link-logo'"></span> <span th:text="${menuitem.name}">小菜单</span>
+            </a>
+          </li>
         </ul>
       </li>
-      <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
     </ul>
   </div>
-</header>
 
-<div class="am-cf admin-main">
-  <!-- sidebar start -->
-  <div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
-    <div class="am-offcanvas-bar admin-offcanvas-bar">
-       <ul class="am-list admin-sidebar-list">
-        <li class="admin-parent" th:each="menu : ${functions}">
-         <a class="am-cf menu"><span class="am-icon-file" th:class="${menu.icon}" th:text="' ' + ${menu.name}"></span></a>
-         <ul class="am-list am-collapse admin-sidebar-sub am-in">
-           <li class="menuitem" th:each="menuitem : ${menu.functions}">
-             <a href="javascript:void(0)" th:attr="url=${menuitem.url}">
-               <span class="am-icon-bug" th:class="${menuitem.icon}"></span> [[${menuitem.name}]]
-             </a>
-           </li>
-         </ul>
-        </li>
-      </ul>
 
-      <div class="am-panel am-panel-default admin-sidebar-panel">
-        <div class="am-panel-bd">
-          <p><span class="am-icon-bookmark"></span> 公告</p>
-          <p>好好学习，天天向上。—— 毛泽东</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <!-- sidebar end -->
-
-  <!-- content start -->
-  <div class="admin-content">
-    <!-- 主页面，load其他页面 -->
-    <div class="admin-content-body" id="mainContainer">
-
-    </div>
-
-    <footer class="admin-content-footer">
-      <hr>
-      <p class="am-padding-left">吴晓冬的项目管理 © 2017</p>
-    </footer>
+  <!-- 内容区域 -->
+  <div class="tpl-content-wrapper" id="mainContainer">
 
   </div>
-  <!-- content end -->
+</div>
 </div>
 
-<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
-
-<footer>
-  <hr>
-  <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
-</footer>
-
-<!--[if lt IE 9]>
-<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
-<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
-<script src="/ui/amazeui/assets/js/amazeui.ie8polyfill.min.js"></script>
-<![endif]-->
-
-<!--[if (gte IE 9)|!(IE)]><!-->
-<script src="/ui/amazeui/assets/js/jquery.min.js"></script>
-<!--<![endif]-->
+<script src="/js/jquery.min.js"></script>
 <script src="/ui/amazeui/assets/js/amazeui.min.js"></script>
-<script src="/ui/amazeui/assets/js/app.js"></script>
+<script src="/ui/amazeuiModel/assets/js/theme.js"></script>
+<script src="/js/main.js"></script>
 
 <script>
-  $(function () {
-      //收缩除第一个外所有菜单
-      var menus = $("#admin-offcanvas .am-in");
-      for (var i = 1; i < menus.length; i++)
-      {
-          menus.eq(i).collapse('close');
-      }
+    //页面初始化
+    $(document).ready(function(){
+        //菜单关联伸缩
+        $('.sidebar-nav-sub-title').on('click', function() {
+            $('.sidebar-nav-sub').slideUp(200).end().find('.sidebar-nav-sub-ico').removeClass('sidebar-nav-sub-ico-rotate');
+            $(this).siblings('.sidebar-nav-sub').slideDown(200).end().find('.sidebar-nav-sub-ico').addClass('sidebar-nav-sub-ico-rotate');
+        })
+        //打开第一个菜单
+        $('.sidebar-nav-sub-title').first().siblings('.sidebar-nav-sub').slideDown(200).end()
+            .find('.sidebar-nav-sub-ico').toggleClass('sidebar-nav-sub-ico-rotate');
+        //菜单栏被点击 加载其他模块的页面到核心区
+        $(".menuitem a").click(function() {
 
-      //某个菜单被点击收缩其他所有菜单展开旗下菜单
-      $("#admin-offcanvas .menu").click(function()
-      {
-          $("#admin-offcanvas .am-in").collapse('close');
-          $(this).next().collapse('toggle');
-      });
-
-      $(".menuitem a").click(function() {
-
-          var url = $(this).attr("url");
-
-          // 加载其他模块的页面到核心区
-          getMainContainer(url);
-      });
-
-      //自动加载菜单栏第一个模块
-      $(".menuitem a:first").trigger("click");
-  });
-
-  function logout()
-  {
-      $("#logoutForm").submit();
-  }
-
-  function getMainContainer(url)
-  {
-      $.ajax({
-          url: url,
-          success: function(data){
-              $("#mainContainer").html(data);
-          },
-          error : function() {
-              alert("error");
-          }
-      });
-  }
-
-  function postMainContainer(formId)
-  {
-      var url = $("#"+formId).attr("action");
-      $.ajax({
-          url: url,
-          type: 'POST',
-          data:$("#"+formId).serialize(),
-          success: function(data){
-              $("#mainContainer").html(data);
-          },
-          error : function() {
-              alert("error");
-          }
-      });
-      return false;
-  }
-
-  function formDownLoad(formId, url)
-  {
-      window.location.href=url + "?" + $("#"+formId).serialize();
-  }
-
-  function deleteMainContainer(url,returnUrl)
-  {
-      if (!confirm("确定要删除吗？"))
-      {
-        return false;
-      }
-      var csrfToken = $("meta[name='_csrf']").attr("content");
-      var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-
-      $.ajax({
-          url: url,
-          type: 'DELETE',
-          beforeSend: function(request) {
-              request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token
-          },
-          dataType: "json",
-          success: function(data){
-              if (data.retCode == '0000')
-              {
-                  alert(data.retMsg);
-                  getMainContainer(returnUrl)
-              }
-              else
-              {
-                  alert(data.retMsg);
-              }
-          },
-          error : function() {
-              alert("error");
-          }
-      });
-
-      return false;
-  }
-
-  function ajaxMainContainer(formId)
-  {
-      var url = $("#"+formId).attr("action");
-      var returnUrl = $("#"+formId).attr("returnUrl");
-      $.ajax({
-          url: url,
-          type: 'POST',
-          data:$("#"+formId).serialize(),
-          dataType: "json",
-          success: function(data){
-              if (data.retCode == '0000')
-              {
-                  getMainContainer(returnUrl)
-              }
-              else
-              {
-                  alert(data.retMsg);
-              }
-          },
-          error : function() {
-              alert("error");
-          }
-      });
-      return false;
-  }
+            var url = $(this).attr("url");
+            getMainContainer(url);
+        });
+        //自动加载第一个菜单栏的模块
+        $(".menuitem a:first").trigger("click");
+        //禁用浏览器返回按钮的操作
+        history.pushState(null, null, document.URL);
+        window.addEventListener('popstate', function () {
+            history.pushState(null, null, document.URL);
+        });
+    });
 </script>
 
 </body>
+
 </html>

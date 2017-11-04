@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
+ * 审计配置
  * Created by 吴晓冬 on 2017/10/25.
  */
 

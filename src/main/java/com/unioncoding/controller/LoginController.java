@@ -75,6 +75,6 @@ public class LoginController
         model.addAttribute("user", user);
         model.addAttribute("functions", root.getFunctions());
 
-        return new ModelAndView("frame/main2", "model", model);
+        return new ModelAndView("frame/main", "model", model);
     }
 }

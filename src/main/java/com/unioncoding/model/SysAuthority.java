@@ -1,5 +1,6 @@
 package com.unioncoding.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -24,6 +25,7 @@ public class SysAuthority implements GrantedAuthority
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "sys_authority_function", joinColumns = {@JoinColumn(name ="authority")}, inverseJoinColumns = {@JoinColumn(name ="function_id")})
+    @JsonIgnore
     private List<SysFunction> functions;
 
     @Override

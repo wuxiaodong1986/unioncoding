@@ -44,8 +44,7 @@ public class SysFunction
 
     private String matchUrl;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "sys_authority_function", joinColumns = {@JoinColumn(name ="function_id")}, inverseJoinColumns = {@JoinColumn(name ="authority")})
+    @ManyToMany(mappedBy="functions", fetch = FetchType.EAGER)
     private List<SysAuthority> authorities;
 
     @Transient

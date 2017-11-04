@@ -30,6 +30,9 @@ public class AspectjConfig
 {
     private final static Logger logger = LoggerFactory.getLogger(AspectjConfig.class);
 
+    /**
+     * controller层异常处理切面
+     */
     @Around("execution(* com.unioncoding.controller..*.*(..))")
     public Object controllerError(ProceedingJoinPoint jp) throws Throwable
     {
