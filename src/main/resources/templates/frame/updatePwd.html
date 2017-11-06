@@ -1,0 +1,71 @@
+<div class="row-content am-cf">
+  <div class="row">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+      <div class="widget am-cf">
+        <div class="widget-head am-cf">
+          <div class="widget-title  am-cf" th:text="${title}">维护页</div>
+        </div>
+
+        <div class="widget-body am-fr">
+
+          <form id="saveForm" class="am-form tpl-form-border-form tpl-form-border-br" th:action="@{/updatePwd}" th:attr="returnUrl=${session.pageHistory[1]}" onsubmit="return updatePwd();">
+            <div class="am-form-group">
+              <label class="am-u-sm-3 am-form-label">原密码</label>
+              <div class="am-u-sm-9">
+                <input type="password" class="tpl-form-input" name="oldPassword" placeholder="请输入原密码">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label class="am-u-sm-3 am-form-label">新密码</label>
+              <div class="am-u-sm-9">
+                <input type="password" class="tpl-form-input" name="newPassword" placeholder="请输入新密码">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label class="am-u-sm-3 am-form-label">重复密码</label>
+              <div class="am-u-sm-9">
+                <input type="password" class="tpl-form-input" name="rePassword" placeholder="请重复输入新密码">
+              </div>
+            </div>
+
+            <br/>
+
+            <div class="am-form-group">
+              <div class="am-u-sm-9 am-u-sm-push-3">
+                <button type="submit" class="am-btn am-btn-secondary am-btn-lg">提&nbsp;&nbsp;&nbsp;交</button>
+                <button type="button" class="am-btn am-btn-secondary am-btn-lg" th:onclick="'javascript:getMainContainer(\''+(${session.pageHistory[1]})+'\');'">返&nbsp;&nbsp;&nbsp;回</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="/ui/amazeui/assets/js/amazeui.min.js"></script>
+<script>
+  function updatePwd()
+  {
+      var newPassword = $("input[name='newPassword']").val();
+      var rePassword = $("input[name='rePassword']").val();
+      if (newPassword =='')
+      {
+          alert("新密码不能为空！");
+          return false;
+      }
+
+      if(newPassword != rePassword)
+      {
+          alert("新密码两次输入不一致！");
+          return false;
+      }
+
+      return ajaxMainContainer('saveForm');
+  }
+
+</script>

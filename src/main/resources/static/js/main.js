@@ -27,6 +27,7 @@ function postMainContainer(formId)
         type: 'POST',
         data:$("#"+formId).serialize(),
         success: function(data){
+            alert(data.retMsg);
             $("#mainContainer").html(data);
         },
         error : function() {
@@ -88,6 +89,7 @@ function ajaxMainContainer(formId)
         success: function(data){
             if (data.retCode == '0000')
             {
+                alert(data.retMsg);
                 getMainContainer(returnUrl)
             }
             else

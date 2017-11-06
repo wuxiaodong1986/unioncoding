@@ -1,0 +1,59 @@
+<div class="row-content am-cf">
+  <div class="row">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+      <div class="widget am-cf">
+        <div class="widget-head am-cf">
+          <div class="widget-title  am-cf" th:text="${title}">维护页</div>
+        </div>
+
+        <div class="widget-body am-fr">
+
+          <form id="saveForm" class="am-form tpl-form-border-form tpl-form-border-br" th:action="@{/personal}" th:object="${user}" th:attr="returnUrl=${session.pageHistory[1]}" onsubmit="return ajaxMainContainer('saveForm');">
+            <div class="am-form-group">
+              <label class="am-u-sm-3 am-form-label">用户名</label>
+              <div class="am-u-sm-9">
+                <input type="text" class="tpl-form-input" name="username" placeholder="请输入用户名" readonly="readonly" th:value="*{username}">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label class="am-u-sm-3 am-form-label">姓名</label>
+              <div class="am-u-sm-9">
+                <input type="text" class="tpl-form-input" name="name" placeholder="请输入姓名" readonly="readonly" th:value="*{name}">
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label class="am-u-sm-3 am-form-label">手机号</label>
+              <div class="am-u-sm-9">
+                <input type="text" class="tpl-form-input" name="phone" placeholder="请输入手机号" th:value="*{phone}">
+                <small>请填写手机号11-20位左右。</small>
+              </div>
+            </div>
+
+            <div class="am-form-group">
+              <label class="am-u-sm-3 am-form-label">邮箱</label>
+              <div class="am-u-sm-9">
+                <input type="text" class="tpl-form-input" name="email" placeholder="请输入邮箱" th:value="*{email}">
+                <small>请填写正确格式的电子邮箱地址</small>
+              </div>
+            </div>
+
+            <br/>
+
+            <div class="am-form-group">
+              <div class="am-u-sm-9 am-u-sm-push-3">
+                <button type="submit" class="am-btn am-btn-secondary am-btn-lg">提&nbsp;&nbsp;&nbsp;交</button>
+                <button type="button" class="am-btn am-btn-secondary am-btn-lg" th:onclick="'javascript:getMainContainer(\''+(${session.pageHistory[1]})+'\');'">返&nbsp;&nbsp;&nbsp;回</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="/ui/amazeui/assets/js/amazeui.min.js"></script>

@@ -14,7 +14,6 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
 
-import javax.sql.DataSource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,9 +25,6 @@ import java.util.Set;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-    @Autowired
-    private DataSource dataSource;
-
     @Autowired
     private UserService userService;
 

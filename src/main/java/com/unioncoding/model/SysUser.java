@@ -23,6 +23,7 @@ public class SysUser implements Serializable
     @Size(min = 2,max = 20, message = "用户名长度需在2到20位")
     private String username;
 
+    @Column(updatable = false)
     private String password;
 
     private Boolean enabled;

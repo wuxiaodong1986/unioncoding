@@ -132,17 +132,8 @@ public class SysUserController
             throw new CustomException("9999", "用户名已被使用");
         }
 
-        //只保存用户信息，不修改密码，因为jpa默认全更新，所以从数据库中查询出原密码;如是新用户，则密码为初始密码111111
-        String password = new BCryptPasswordEncoder().encode("111111");
-        if (null != user.getId())
-        {
-            oldUser = userRepository.findOne(user.getId());
-            if (null != oldUser)
-            {
-                password = oldUser.getPassword();
-            }
-        }
-        user.setPassword(password);
+        // 设置初始密码111111，此处user属性里设置了更改时密码不更新
+        user.setPassword(new BCryptPasswordEncoder().encode("111111"));
 
         userRepository.save(user);
 

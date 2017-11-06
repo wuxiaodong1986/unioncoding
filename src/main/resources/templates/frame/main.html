@@ -11,10 +11,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp" />
-  <link rel="icon" type="image/png" href="/ui/amazeuiModel/assets/i/favicon.png">
-  <link rel="apple-touch-icon-precomposed" href="/ui/amazeuiModel/assets/i/app-icon72x72@2x.png">
+  <link rel="icon" type="image/png" href="/ui/amazeui/assets/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/ui/amazeui/assets/i/app-icon72x72@2x.png">
   <meta name="apple-mobile-web-app-title" content="UnionCoding" />
-  <link rel="stylesheet" href="/ui/amazeuiModel/assets/css/amazeui.min.css" />
+  <link rel="stylesheet" href="/ui/amazeui/assets/css/amazeui.min.css" />
   <link rel="stylesheet" href="/ui/amazeuiModel/assets/css/amazeui.datatables.min.css" />
   <link rel="stylesheet" href="/ui/amazeuiModel/assets/css/app.css">
   <!-- CSRF -->
@@ -38,6 +38,17 @@
           <!-- 欢迎语 -->
           <li class="am-text-sm tpl-header-navbar-welcome">
             <a href="javascript:;">欢迎你, <span th:text="${user.name}">Amaze UI</span> </a>
+          </li>
+
+          <!-- 个人信息 -->
+          <li class="am-dropdown" data-am-dropdown>
+            <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+              <span class="am-icon-users"></span>设置<span class="am-icon-caret-down"></span>
+            </a>
+            <ul class="am-dropdown-content">
+              <li><a href="#" th:onclick="'javascript:getMainContainer(\'/personal\')'"><span class="am-icon-user"></span>个人信息</a></li>
+              <li><a href="#" th:onclick="'javascript:getMainContainer(\'/updatePwd\')'"><span class="am-icon-cog"></span>修改密码</a></li>
+            </ul>
           </li>
 
           <!-- 新提示 -->
