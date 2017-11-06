@@ -12,7 +12,7 @@ import java.util.List;
  * Created by 吴晓冬 on 2017/9/9.
  */
 @Configuration
-public class FilterConfig
+public class EasyFilterConfig
 {
     @Bean
     public FilterRegistrationBean corsFilter()
