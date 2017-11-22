@@ -1,4 +1,4 @@
-package com.unioncoding.service;
+package com.unioncoding.service.file;
 
 import com.aliyun.oss.HttpMethod;
 import com.aliyun.oss.OSSClient;
@@ -17,10 +17,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * 阿里云oss文件处理
  * Created by 吴晓冬 on 2017/10/26.
  */
 @Service
-public class FileService
+public class AliyunFileService implements FileService
 {
     @Value("${aliyun.accessKeyId}")
     private  String accessKeyId;

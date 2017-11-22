@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http.authorizeRequests();
         //设置不登录可访问页面
-        registry = registry.antMatchers("/ui/**", "/").permitAll();
+        registry = registry.antMatchers("/ui/**", "/js/**", "/").permitAll();
         //设置需要登录且需要授权才可以访问的页面
         for (SysFunction function : functions)
         {
@@ -64,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         //页面的其他设置
         registry.and().formLogin().loginPage("/login").failureUrl("/login?error").defaultSuccessUrl("/main").permitAll()//设置登录页面
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/").permitAll()//设置注销页面
-                .and().csrf().ignoringAntMatchers("/interface/*");//设置免除csrf防御的接口
+                .and().csrf().ignoringAntMatchers("/interface/*")//设置免除csrf防御的接口
+                .and().headers().frameOptions().sameOrigin();//设置X-Frame-Options：SAMEORIGIN
     }
 
     /**

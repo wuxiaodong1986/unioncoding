@@ -13,6 +13,12 @@ function getMainContainer(url)
         success: function(data){
             $("#mainContainer").html(data);
         },
+        complete: function(){
+            jQuery.getScript("/ui/amazeui/assets/js/amazeui.min.js");
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent("load", true, true);
+            window.dispatchEvent(event);
+        },
         error : function() {
             alert("error");
         }
@@ -27,8 +33,13 @@ function postMainContainer(formId)
         type: 'POST',
         data:$("#"+formId).serialize(),
         success: function(data){
-            alert(data.retMsg);
             $("#mainContainer").html(data);
+        },
+        complete: function(){
+            jQuery.getScript("/ui/amazeui/assets/js/amazeui.min.js");
+            var event = document.createEvent('HTMLEvents');
+            event.initEvent("load", true, true);
+            window.dispatchEvent(event);
         },
         error : function() {
             alert("error");

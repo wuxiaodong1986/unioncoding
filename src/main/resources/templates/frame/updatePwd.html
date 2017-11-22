@@ -47,25 +47,24 @@
 </div>
 </div>
 
-<script src="/ui/amazeui/assets/js/amazeui.min.js"></script>
 <script>
-  function updatePwd()
-  {
-      var newPassword = $("input[name='newPassword']").val();
-      var rePassword = $("input[name='rePassword']").val();
-      if (newPassword =='')
-      {
-          alert("新密码不能为空！");
-          return false;
-      }
+function updatePwd()
+{
+    var newPassword = $("input[name='newPassword']").val();
+    var rePassword = $("input[name='rePassword']").val();
+    if (newPassword =='')
+    {
+        alert("新密码不能为空！");
+        return false;
+    }
 
-      if(newPassword != rePassword)
-      {
-          alert("新密码两次输入不一致！");
-          return false;
-      }
+    if(newPassword != rePassword)
+    {
+        alert("新密码两次输入不一致！");
+        return false;
+    }
 
-      return ajaxMainContainer('saveForm');
-  }
+    return ajaxMainContainer('saveForm');
+}
 
 </script>
