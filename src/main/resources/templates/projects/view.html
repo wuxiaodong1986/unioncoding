@@ -1,71 +1,66 @@
-
-
-<div class="am-cf am-padding am-padding-bottom-0">
-  <div class="am-fl am-cf">
-    <strong class="am-text-primary am-text-lg" th:text="${title}">标题</strong>
-  </div>
-</div>
-
-<hr>
-
-<div class="am-tabs am-margin" data-am-tabs>
-  <ul class="am-tabs-nav am-nav am-nav-tabs">
-    <li class="am-active"><a href="#dscb">描述</a></li>
-    <li><a href="#base">基本信息</a></li>
-    <li><a href="#issues">问题</a></li>
-    <li><a href="#servers">服务器信息</a></li>
-  </ul>
-
-  <div class="am-tabs-bd">
-    <div class="am-tab-panel am-fade am-in am-active" id="dscb">
-      <textarea name="dscb" th:text="${project.dscb}" hidden="hidden"></textarea>
-      <article class="am-article">
-        <div class="am-article-hd">
-          <h1 class="am-article-title" th:text="${project.title}">标题</h1>
-          <p class="am-article-meta" th:text="${project.creater.name}">作者</p>
+<div class="row-content am-cf">
+  <div class="row">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+      <div class="widget am-cf">
+        <div class="widget-head am-cf">
+          <div class="widget-title  am-cf" th:text="${title}">维护页</div>
         </div>
 
-        <div class="am-article-bd">
-          <p class="am-article-lead" id="markdown">正文</p>
-        </div>
-      </article>
-    </div>
+          <div class="widget-body am-fr">
+            <div class="am-tabs am-margin" data-am-tabs>
+              <ul class="am-tabs-nav am-nav am-nav-tabs">
+                <li class="am-active"><a href="#dscb">描述</a></li>
+                <li><a href="#base">基本信息</a></li>
+                <li><a href="#issues">问题</a></li>
+                <li><a href="#servers">服务器信息</a></li>
+              </ul>
 
-    <div class="am-tab-panel am-fade am-in am-active" id="base">
-      <div class="am-g am-margin-top">
-        <div class="am-u-sm-6 am-u-md-6 am-text-right">标题</div>
-        <div class="am-u-sm-6 am-u-md-6" th:text="${project.title}"></div>
+              <div class="am-tabs-bd">
+                <div class="am-tab-panel am-fade am-in am-active" id="dscb">
+                  <textarea name="dscb" th:text="${object.dscb}" hidden="hidden"></textarea>
+                  <article class="am-article">
+                    <div class="am-article-hd">
+                      <h1 class="am-article-title" th:text="${object.title}">标题</h1>
+                      <p class="am-article-meta" th:text="${object.creater.name}">作者</p>
+                    </div>
 
-        <div class="am-u-sm-6 am-u-md-3 am-text-right">创建人</div>
-        <div class="am-u-sm-6 am-u-md-3" th:text="${project.creater.name}"></div>
-        <div class="am-u-sm-6 am-u-md-3 am-text-right">创建时间</div>
-        <div class="am-u-sm-6 am-u-md-3" th:text="${#dates.format(project.createtime,'yyyy-MM-dd HH:mm:ss')}"></div>
+                    <div class="am-article-bd">
+                      <p class="am-article-lead" id="markdown">正文</p>
+                    </div>
+                  </article>
+                </div>
 
-        <div class="am-u-sm-6 am-u-md-3 am-text-right">负责人</div>
-        <div class="am-u-sm-6 am-u-md-3 am-u-end" th:text="${project.owner.name}"></div>
+                <div class="am-tab-panel am-fade am-in am-active" id="base">
+                  <div class="am-g am-margin-top">
+                    <div class="am-u-sm-6 am-u-md-6 am-text-right">标题</div>
+                    <div class="am-u-sm-6 am-u-md-6" th:text="${object.title}"></div>
+
+                    <div class="am-u-sm-6 am-u-md-3 am-text-right">创建人</div>
+                    <div class="am-u-sm-6 am-u-md-3" th:text="${object.creater.name}"></div>
+                    <div class="am-u-sm-6 am-u-md-3 am-text-right">创建时间</div>
+                    <div class="am-u-sm-6 am-u-md-3" th:text="${#dates.format(object.createtime,'yyyy-MM-dd HH:mm:ss')}"></div>
+
+                    <div class="am-u-sm-6 am-u-md-3 am-text-right">负责人</div>
+                    <div class="am-u-sm-6 am-u-md-3 am-u-end" th:text="${object.owner.name}"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="am-margin">
+              <button type="button" class="am-btn am-btn-primary" th:onclick="'javascript:getMainContainer(\''+(${session.pageHistory[1]})+'\');'">返回</button>
+            </div>
+          </div>
+
       </div>
     </div>
   </div>
 </div>
 
-<div class="am-margin">
-  <button type="button" class="am-btn am-btn-primary" th:onclick="'javascript:getMainContainer(\''+(${session.pageHistory[1]})+'\');'">返回</button>
-</div>
-
-<script src="/ui/showdown/dist/showdown.min.js"></script>
-<script src="/ui/amazeui/assets/js/amazeui.min.js"></script>
+<script src="/js/showdown/dist/showdown.min.js"></script>
+<script src="/js/markdown.js"></script>
 <script>
     $(document).ready(function(){
-        initMarkdown();
-
+        bindMarkdown("dscb", "markdown");
     });
-
-    function initMarkdown() {
-        var text = $("textarea[name='dscb']").val();
-        //创建实例
-        var converter = new showdown.Converter();
-        //进行转换
-        var html = converter.makeHtml(text);
-        $("#markdown").html(html);
-    }
 </script>

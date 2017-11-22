@@ -1,98 +1,103 @@
-<div class="am-cf am-padding am-padding-bottom-0">
-  <div class="am-fl am-cf">
-    <strong class="am-text-primary am-text-lg" th:text="${title}">表格</strong>
-  </div>
-</div>
+<div class="row-content am-cf">
+  <div class="row">
+    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+      <div class="widget am-cf">
+        <div class="widget-head am-cf">
+          <div class="widget-title  am-cf" th:text="${title}">查询页</div>
+        </div>
 
-<hr>
+        <div class="widget-body  am-fr">
 
-<form id="queryForm" th:action="@{/issues}" th:object="${issue}" onsubmit="return postMainContainer('queryForm');">
-  <input type="hidden" name="pageNumber" th:value="${page.number}">
+          <!-- 查询条件 -->
+          <form id="queryForm" class="am-form tpl-form-border-form tpl-form-border-br" th:action="@{/issues}" th:object="${object}" onsubmit="return postMainContainer('queryForm');">
+            <input type="hidden" name="pageNumber" th:value="${page.number}">
 
-  <div class="am-g">
-    <div class="am-u-sm-12 am-u-md-3 am-u-lg-3 am-text-center am-form-group">
-      标题：
-    </div>
-    <div class="am-u-sm-12 am-u-md-3 am-u-lg-3 am-form-group">
-      <input type="text" name="title" class="am-form-field" th:value="*{title}">
-    </div>
+            <div class="am-g">
+              <div class="am-u-sm-1 am-u-md-1 am-u-lg-1 am-form-group">
+              </div>
 
-    <div class="am-u-sm-12 am-u-md-3 am-u-lg-3 am-text-center am-form-group">
-      负责人：
-    </div>
-    <div class="am-u-sm-12 am-u-md-3 am-u-lg-3 am-form-group am-u-end">
-      <select name="owner" data-am-selected="{btnWidth: '100%'}">
-        <option value=""></option>
-        <option value="a" th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}+'('+${user.username}+')'" th:selected="${user == issue.owner}">Apple</option>
-      </select>
-    </div>
+              <div class="am-u-sm-12 am-u-md-2 am-u-lg-2 am-text-right am-form-group">
+                标题：
+              </div>
+              <div class="am-u-sm-12 am-u-md-2 am-u-lg-2 am-form-group">
+                <input type="text" name="title" class="am-form-field" th:value="*{title}">
+              </div>
 
-  </div>
+              <div class="am-u-sm-12 am-u-md-2 am-u-lg-2 am-text-right am-form-group">
+                负责人：
+              </div>
+              <div class="am-u-sm-12 am-u-md-2 am-u-lg-2 am-form-group am-u-end">
+                <select name="owner" data-am-selected="{btnWidth: '100%'}">
+                  <option value=""></option>
+                  <option value="a" th:each="user : ${users}" th:value="${user.id}" th:text="${user.name}+'('+${user.username}+')'" th:selected="${user == object.owner}">Apple</option>
+                </select>
+              </div>
+            </div>
 
-  <br/>
+            <br/>
 
-  <div class="am-g">
-    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12 am-text-center">
-      <button type="submit" class="am-btn am-btn-primary am-btn-xs am-btn-lg">提&nbsp;&nbsp;&nbsp;交</button>
-    </div>
-  </div>
+            <div class="am-g">
+              <div class="am-u-sm-12 am-u-md-12 am-u-lg-12 am-text-center">
+                <button type="submit" class="am-btn am-btn-secondary">提&nbsp;&nbsp;&nbsp;交</button>
+              </div>
+            </div>
 
-</form>
+          </form>
 
-<div class="am-u-sm-12 am-u-md-6">
-  <div class="am-btn-toolbar">
-    <div class="am-btn-group am-btn-group-xs">
-      <button id="add" type="button" class="am-btn am-btn-primary" th:onclick="'javascript:getMainContainer(\'/issues/save\');'">
-        <span class="am-icon-plus"></span> 新增
-      </button>
-    </div>
-  </div>
-</div>
-<div class="am-g">
-  <div class="am-u-sm-12">
-    <table class="am-table am-table-striped am-table-hover table-main">
-      <thead>
-      <tr>
-        <th class="am-hide-sm-only">id</th>
-        <th>标题</th>
-        <th>负责人</th>
-        <th class="am-hide-sm-only">创建者</th>
-        <th class="am-hide-sm-only">创建时间</th>
-        <th class="am-hide-sm-only">最后操作人</th>
-        <th class="am-hide-sm-only">最后操作时间</th>
-        <th>操作</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="issue : ${page.content}">
-        <td class="am-hide-sm-only" th:text="${issue.id}">1</td>
-        <td th:text="${issue.title}">标题</td>
-        <td th:text="${issue.owner.name}">负责人</td>
-        <td class="am-hide-sm-only" th:text="${issue.creater.name}">创建者</td>
-        <td class="am-hide-sm-only"  th:text="${#dates.format(issue.createtime,'yyyy-MM-dd HH:mm:ss')}">2017-01-01</td>
-        <td class="am-hide-sm-only" th:text="${issue.updater.name}">最后操作人</td>
-        <td class="am-hide-sm-only"  th:text="${#dates.format(issue.updatetime,'yyyy-MM-dd HH:mm:ss')}">2017-01-01</td>
-        <td>
-          <div class="am-btn-toolbar">
-            <div class="am-btn-group am-btn-group-xs">
-              <button class="am-btn am-btn-default am-btn-xs am-text-secondary" th:onclick="'javascript:getMainContainer(\'/issues/save/'+(${issue.id})+'\');'">
-                <span class="am-icon-pencil-square-o"></span> 修改
-              </button>
-              <button class="am-btn am-btn-default am-btn-xs am-text-danger" th:onclick="'javascript:deleteMainContainer(\'/issues/'+(${issue.id})+'\', \''+(${session.pageHistory[0]})+'\');'">
-                <span class="am-icon-trash-o"></span> 删除
-              </button>
+          <!-- 操作按钮 -->
+          <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+            <div class="am-form-group">
+              <div class="am-btn-toolbar">
+                <div class="am-btn-group am-btn-group-xs">
+                  <button type="button" class="am-btn am-btn-default am-btn-success" th:onclick="'javascript:getMainContainer(\'/issues/save\');'"><span class="am-icon-plus"></span> 新增</button>
+                </div>
+              </div>
             </div>
           </div>
-        </td>
-      </tr>
-      </tbody>
-    </table>
 
-    <!-- 分页 -->
-    <div th:replace="~{frame/page :: page}">...</div>
+          <div class="am-u-sm-12">
+            <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black">
+              <thead>
+              <tr>
+                <th class="am-hide-sm-only">id</th>
+                <th>标题</th>
+                <th>负责人</th>
+                <th class="am-hide-sm-only">创建者</th>
+                <th class="am-hide-sm-only">创建时间</th>
+                <th class="am-hide-sm-only">最后操作人</th>
+                <th class="am-hide-sm-only">最后操作时间</th>
+                <th>操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="object : ${page.content}">
+                <td class="am-hide-sm-only" th:text="${object.id}">1</td>
+                <td th:text="${object.title}">标题</td>
+                <td th:text="${object.owner.name}">负责人</td>
+                <td class="am-hide-sm-only" th:text="${object.creater.name}">创建者</td>
+                <td class="am-hide-sm-only"  th:text="${#dates.format(object.createtime,'yyyy-MM-dd HH:mm:ss')}">2017-01-01</td>
+                <td class="am-hide-sm-only" th:text="${object.updater.name}">最后操作人</td>
+                <td class="am-hide-sm-only"  th:text="${#dates.format(object.updatetime,'yyyy-MM-dd HH:mm:ss')}">2017-01-01</td>
+                <td>
+                  <div class="tpl-table-black-operation">
+                    <a href="javascript:;" th:onclick="'javascript:getMainContainer(\'/issues/save/'+(${object.id})+'\');'">
+                      <i class="am-icon-pencil"></i> 修改
+                    </a>
+                    <a href="javascript:;" class="tpl-table-black-operation-del" th:onclick="'javascript:deleteMainContainer(\'/issues/'+(${object.id})+'\', \''+(${session.pageHistory[0]})+'\');'">
+                      <i class="am-icon-trash"></i> 删除
+                    </a>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
 
-    <hr/>
+          <!-- 分页 -->
+          <div th:replace="~{frame/page :: page}">...</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
-<script src="/ui/amazeui/assets/js/amazeui.min.js"></script>
+</div>

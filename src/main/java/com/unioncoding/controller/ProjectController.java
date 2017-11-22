@@ -26,7 +26,7 @@ import java.util.List;
 public class ProjectController
 {
     @Autowired
-    private ProjectRepository projectRepository;
+    private ProjectRepository repository;
 
     @Autowired
     private SysUserRepository userRepository;
@@ -38,19 +38,19 @@ public class ProjectController
      * 分页查询信息
      */
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, Project project, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
+    public String list(Model model, Project object, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
     {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
         PageRequest pageRequest = new PageRequest(pageNumber, pageSize);
 
-        Page<Project> page = projectRepository.findAll(Example.of(project, matcher), pageRequest);
+        Page<Project> page = repository.findAll(Example.of(object, matcher), pageRequest);
 
         List<SysUser> users = userRepository.findAll();
 
         model.addAttribute("users", users);
         model.addAttribute("page", page);
-        model.addAttribute("project", project);
+        model.addAttribute("object", object);
         model.addAttribute("title", "项目管理");
 
         return "projects/list";
@@ -67,8 +67,7 @@ public class ProjectController
 
         model.addAttribute("title", "新建项目");
 
-        Project project = new Project();
-        model.addAttribute("project", project);
+        model.addAttribute("object", new Project());
 
         return "projects/save";
     }
@@ -82,9 +81,9 @@ public class ProjectController
         List<SysUser> users = userRepository.findAll();
         model.addAttribute("users", users);
 
-        Project project = projectRepository.findOne(id);
+        Project object = repository.findOne(id);
         model.addAttribute("title", "修改项目");
-        model.addAttribute("project", project);
+        model.addAttribute("object", object);
 
         return "projects/save";
     }
@@ -94,9 +93,9 @@ public class ProjectController
      */
     @PostMapping("/save")
     @ResponseBody
-    public Response save(Project project)
+    public Response save(Project object)
     {
-        projectRepository.save(project);
+        repository.save(object);
 
         return new Response("0000", "操作成功");
     }
@@ -108,7 +107,7 @@ public class ProjectController
     @ResponseBody
     public Response delete(@PathVariable("id") Long id)
     {
-        projectRepository.delete(id);
+        repository.delete(id);
 
         return new Response("0000", "操作成功");
     }
@@ -119,9 +118,9 @@ public class ProjectController
     @GetMapping("/view/{id}")
     public String view(Model model, @PathVariable("id") Long id)
     {
-        Project project = projectRepository.findOne(id);
+        Project object = repository.findOne(id);
         model.addAttribute("title", "查看项目");
-        model.addAttribute("project", project);
+        model.addAttribute("object", object);
 
         return "projects/view";
     }

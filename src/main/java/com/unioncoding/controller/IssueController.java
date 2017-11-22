@@ -44,19 +44,19 @@ public class IssueController
      * 分页查询信息
      */
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String list(Model model, Issue issue, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
+    public String list(Model model, Issue object, @RequestParam(value = "pageNumber", required = false, defaultValue = "0") Integer pageNumber)
     {
         ExampleMatcher matcher = ExampleMatcher.matching()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);//设置string为模糊查询
         PageRequest pageRequest = new PageRequest(pageNumber, pageSize);
 
-        Page<Issue> page = repository.findAll(Example.of(issue, matcher), pageRequest);
+        Page<Issue> page = repository.findAll(Example.of(object, matcher), pageRequest);
 
         List<SysUser> users = userRepository.findAll();
 
         model.addAttribute("users", users);
         model.addAttribute("page", page);
-        model.addAttribute("issue", issue);
+        model.addAttribute("object", object);
         model.addAttribute("title", "问题管理");
 
         return "issues/list";
@@ -76,8 +76,7 @@ public class IssueController
 
         model.addAttribute("title", "新建问题");
 
-        Issue issue = new Issue();
-        model.addAttribute("issue", issue);
+        model.addAttribute("object", new Issue());
 
         return "issues/save";
     }
@@ -94,8 +93,8 @@ public class IssueController
         List<Project> projects = projectRepository.findAll();
         model.addAttribute("projects", projects);
 
-        Issue issue = repository.findOne(id);
-        model.addAttribute("issue", issue);
+        Issue object = repository.findOne(id);
+        model.addAttribute("object", object);
 
         model.addAttribute("title", "修改问题");
 
@@ -107,9 +106,9 @@ public class IssueController
      */
     @PostMapping("/save")
     @ResponseBody
-    public Response save(Issue issue)
+    public Response save(Issue object)
     {
-        repository.save(issue);
+        repository.save(object);
 
         return new Response("0000", "操作成功");
     }
